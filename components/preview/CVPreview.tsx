@@ -91,8 +91,8 @@ export default function CVPreview() {
         <>
           <div className={styles.sectionHeader}>{lang.cvEducation}</div>
           <div className={styles.entryHeader}>
-            <span className={styles.company}>{data.education.institution}</span>
-            <span className={styles.date}>{data.education.period}</span>
+            <span className={styles.entryTitle}>{data.education.institution}</span>
+            <span className={styles.entryDate}>{data.education.period}</span>
           </div>
           <div>{data.education.degree}</div>
           {data.education.gpa && <div>GPA: {data.education.gpa}</div>}
@@ -108,10 +108,10 @@ export default function CVPreview() {
           {data.experience.map((exp) => (
             <div key={exp.id} style={{ marginBottom: '8px' }}>
               <div className={styles.entryHeader}>
-                <span className={styles.company}>
+                <span className={styles.entryTitle}>
                   {exp.company}{exp.title && exp.company ? ' | ' : ''}{exp.title}
                 </span>
-                <span className={styles.date}>{exp.period}</span>
+                <span className={styles.entryDate}>{exp.period}</span>
               </div>
               <ul className={styles.bulletList}>
                 {exp.bullets.filter(Boolean).map((bullet, idx) => (

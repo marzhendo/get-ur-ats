@@ -39,14 +39,20 @@
 .entryHeader {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
   font-weight: bold;
 }
 
-.company {
-  font-weight: bold;
+.entryTitle {
+  flex: 1;
+  min-width: 0;
 }
 
-.date {
+.entryDate {
+  flex-shrink: 0;
+  white-space: nowrap;
+  text-align: right;
   font-weight: normal;
 }
 

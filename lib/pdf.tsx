@@ -36,10 +36,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     fontWeight: 'bold',
   },
-  company: {
-    fontWeight: 'bold',
+  entryTitle: {
+    flex: 1,
   },
-  date: {
+  entryDate: {
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    textAlign: 'right',
     fontWeight: 'normal',
   },
   bulletItem: {
@@ -137,8 +140,8 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
           <View>
             <Text style={styles.sectionHeader}>{lang.cvEducation}</Text>
             <View style={styles.entryHeader}>
-              <Text style={styles.company}>{data.education.institution}</Text>
-              <Text style={styles.date}>{data.education.period}</Text>
+              <Text style={styles.entryTitle}>{data.education.institution}</Text>
+              <Text style={styles.entryDate}>{data.education.period}</Text>
             </View>
             <Text>{data.education.degree}</Text>
             {data.education.gpa && <Text>GPA: {data.education.gpa}</Text>}
@@ -154,10 +157,10 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
             {data.experience.map((exp) => (
               <View key={exp.id} style={{ marginBottom: 8 }}>
                 <View style={styles.entryHeader}>
-                  <Text style={styles.company}>
+                  <Text style={styles.entryTitle}>
                     {exp.company}{exp.title && exp.company ? ' | ' : ''}{exp.title}
                   </Text>
-                  <Text style={styles.date}>{exp.period}</Text>
+                  <Text style={styles.entryDate}>{exp.period}</Text>
                 </View>
                 <View>
                   {exp.bullets.filter(Boolean).map((bullet, idx) => (
