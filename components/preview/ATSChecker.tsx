@@ -26,11 +26,17 @@ export default function ATSChecker() {
     alert('CV copied to clipboard as plain text!')
   }
 
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'bg-green-600'
+    if (score >= 60) return 'bg-yellow-600'
+    return 'bg-red-600'
+  }
+
   return (
     <>
       <button 
         onClick={() => setShowModal(true)}
-        className={`px-4 py-2 rounded text-sm font-bold text-background ${result.passed ? 'bg-green-500' : 'bg-yellow-500'}`}
+        className={`px-4 py-2 rounded text-sm font-bold text-background ${getScoreColor(result.score)}`}
       >
         {lang.atsScore}: {result.score}
       </button>

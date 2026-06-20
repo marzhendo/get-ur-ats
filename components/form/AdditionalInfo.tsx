@@ -48,7 +48,7 @@ export default function AdditionalInfo() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 p-2 bg-background border border-border rounded text-text focus:border-accent outline-none"
+            className="flex-1 p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
           />
           <button onClick={handleAdd} className="bg-surface border border-border px-4 rounded text-text hover:bg-border">
             Add
@@ -68,7 +68,11 @@ export default function AdditionalInfo() {
 
   return (
     <section className="mb-8">
-      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">{lang.additionalInfo}</h3>
+      <div className="border-l-2 border-accent pl-3 mb-4">
+        <h2 className="text-text font-semibold text-sm uppercase tracking-widest">
+          {lang.additionalInfo}
+        </h2>
+      </div>
       <ArrayInput title={lang.certifications} items={data.additional.certifications} field="certifications" />
       <ArrayInput title={lang.achievements} items={data.additional.achievements} field="achievements" />
       <ArrayInput title={lang.technicalSkills} items={data.additional.technicalSkills} field="technicalSkills" />

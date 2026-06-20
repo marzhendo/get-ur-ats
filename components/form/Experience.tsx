@@ -36,7 +36,9 @@ export default function Experience() {
   return (
     <section className="mb-8">
       <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
-        <h3 className="text-xl font-bold text-text">{lang.experience}</h3>
+        <div className="border-l-2 border-accent pl-3">
+          <h2 className="text-text font-semibold text-sm uppercase tracking-widest">{lang.experience}</h2>
+        </div>
         <button onClick={handleAdd} className="text-sm bg-accent text-background px-3 py-1 rounded font-medium hover:bg-opacity-90">
           + {lang.addEntry}
         </button>
@@ -57,21 +59,21 @@ export default function Experience() {
                 placeholder="Job Title"
                 value={exp.title}
                 onChange={(e) => updateExperience(exp.id, { title: e.target.value })}
-                className="p-2 bg-surface border border-border rounded text-text focus:border-accent outline-none"
+                className="p-2 bg-surface border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Company"
                 value={exp.company}
                 onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
-                className="p-2 bg-surface border border-border rounded text-text focus:border-accent outline-none"
+                className="p-2 bg-surface border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
               />
               <input
                 type="text"
                 placeholder="Period (e.g. Jan 2022 - Present)"
                 value={exp.period}
                 onChange={(e) => updateExperience(exp.id, { period: e.target.value })}
-                className="p-2 bg-surface border border-border rounded text-text focus:border-accent outline-none md:col-span-2"
+                className="p-2 bg-surface border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none md:col-span-2"
               />
             </div>
             
@@ -84,7 +86,7 @@ export default function Experience() {
                     placeholder="Achieved X by doing Y resulting in Z..."
                     value={bullet}
                     onChange={(e) => handleUpdateBullet(exp.id, exp.bullets, idx, e.target.value)}
-                    className="flex-1 p-2 bg-surface border border-border rounded text-text focus:border-accent outline-none"
+                    className="flex-1 p-2 bg-surface border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
                   />
                   <button onClick={() => handleRemoveBullet(exp.id, exp.bullets, idx)} className="px-3 text-red-500 hover:text-red-400">
                     ✕
