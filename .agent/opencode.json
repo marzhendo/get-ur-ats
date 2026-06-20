@@ -1,0 +1,4 @@
+{
+  "plugin": ["./.opencode/plugins/ponytail.mjs"],
+  "rules": [".agent/rules.md", ".agent/SKILLS.md"]
+}

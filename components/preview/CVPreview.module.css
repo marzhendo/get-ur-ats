@@ -1,0 +1,71 @@
+/* CVPreview.module.css */
+.page {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 11px;
+  padding: 96px;           /* 1 inch */
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 816px;        /* US Letter at 96dpi */
+  min-height: 1056px;
+  margin: 0 auto;
+  color: #1A1A1A;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.name {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.contact {
+  text-align: center;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.sectionHeader {
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #1A1A1A;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+
+.entryHeader {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.company {
+  font-weight: bold;
+}
+
+.date {
+  font-weight: normal;
+}
+
+.bulletList {
+  margin: 0;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.bulletItem {
+  display: flex;
+}
+
+.bullet::before {
+  content: '• ';
+  white-space: pre;
+}
+
+.link {
+  color: #1A1A1A;
+  text-decoration: underline;
+}
