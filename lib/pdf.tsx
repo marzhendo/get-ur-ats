@@ -1,5 +1,6 @@
 import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/renderer'
 import type { CVData } from '@/types/cv'
+import { t, Locale } from '@/lib/i18n'
 
 const styles = StyleSheet.create({
   page: {
@@ -61,7 +62,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CVDocument = ({ data }: { data: CVData }) => {
+export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) => {
+  const lang = t[locale]
+
   const renderContactItems = () => {
     const items: React.ReactNode[] = []
     
@@ -124,7 +127,7 @@ export const CVDocument = ({ data }: { data: CVData }) => {
         {/* Summary */}
         {data.summary && (
           <View>
-            <Text style={styles.sectionHeader}>Professional Summary</Text>
+            <Text style={styles.sectionHeader}>{lang.cvSummary}</Text>
             <Text>{data.summary}</Text>
           </View>
         )}
@@ -132,7 +135,7 @@ export const CVDocument = ({ data }: { data: CVData }) => {
         {/* Education */}
         {(data.education.institution || data.education.degree) && (
           <View>
-            <Text style={styles.sectionHeader}>Education</Text>
+            <Text style={styles.sectionHeader}>{lang.cvEducation}</Text>
             <View style={styles.entryHeader}>
               <Text style={styles.company}>{data.education.institution}</Text>
               <Text style={styles.date}>{data.education.period}</Text>
@@ -147,7 +150,7 @@ export const CVDocument = ({ data }: { data: CVData }) => {
         {/* Experience */}
         {data.experience.length > 0 && (
           <View>
-            <Text style={styles.sectionHeader}>Professional Experience</Text>
+            <Text style={styles.sectionHeader}>{lang.cvExperience}</Text>
             {data.experience.map((exp) => (
               <View key={exp.id} style={{ marginBottom: 8 }}>
                 <View style={styles.entryHeader}>
@@ -175,28 +178,28 @@ export const CVDocument = ({ data }: { data: CVData }) => {
           data.additional.technicalSkills.length > 0 ||
           data.additional.softSkills.length > 0) && (
           <View>
-            <Text style={styles.sectionHeader}>Additional Information</Text>
+            <Text style={styles.sectionHeader}>{lang.cvAdditional}</Text>
             {data.additional.certifications.length > 0 && (
               <Text>
-                <Text style={styles.bold}>Certifications: </Text>
+                <Text style={styles.bold}>{lang.certifications}: </Text>
                 {data.additional.certifications.join(', ')}
               </Text>
             )}
             {data.additional.achievements.length > 0 && (
               <Text>
-                <Text style={styles.bold}>Achievements: </Text>
+                <Text style={styles.bold}>{lang.achievements}: </Text>
                 {data.additional.achievements.join(', ')}
               </Text>
             )}
             {data.additional.technicalSkills.length > 0 && (
               <Text>
-                <Text style={styles.bold}>Technical Skills: </Text>
+                <Text style={styles.bold}>{lang.technicalSkills}: </Text>
                 {data.additional.technicalSkills.join(', ')}
               </Text>
             )}
             {data.additional.softSkills.length > 0 && (
               <Text>
-                <Text style={styles.bold}>Soft Skills: </Text>
+                <Text style={styles.bold}>{lang.softSkills}: </Text>
                 {data.additional.softSkills.join(', ')}
               </Text>
             )}

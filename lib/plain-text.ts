@@ -1,6 +1,8 @@
 import { CVData } from '@/types/cv'
+import { t, Locale } from '@/lib/i18n'
 
-export function toPlainText(data: CVData): string {
+export function toPlainText(data: CVData, locale: Locale): string {
+  const lang = t[locale]
   const lines: string[] = []
   
   if (data.personal.name) lines.push(data.personal.name.toUpperCase())
@@ -17,14 +19,14 @@ export function toPlainText(data: CVData): string {
   lines.push('')
 
   if (data.summary) {
-    lines.push('PROFESSIONAL SUMMARY')
+    lines.push(lang.cvSummary)
     lines.push('---')
     lines.push(data.summary)
     lines.push('')
   }
 
   if (data.education.institution) {
-    lines.push('EDUCATION')
+    lines.push(lang.cvEducation)
     lines.push('---')
     lines.push(`${data.education.institution} | ${data.education.period}`)
     lines.push(data.education.degree)
@@ -35,7 +37,7 @@ export function toPlainText(data: CVData): string {
   }
 
   if (data.experience.length > 0) {
-    lines.push('PROFESSIONAL EXPERIENCE')
+    lines.push(lang.cvExperience)
     lines.push('---')
     data.experience.forEach(exp => {
       lines.push(`${exp.company} | ${exp.title} | ${exp.period}`)
@@ -52,19 +54,19 @@ export function toPlainText(data: CVData): string {
     data.additional.softSkills.length > 0
 
   if (hasAdditional) {
-    lines.push('ADDITIONAL INFORMATION')
+    lines.push(lang.cvAdditional)
     lines.push('---')
     if (data.additional.certifications.length > 0) {
-      lines.push(`Certifications: ${data.additional.certifications.join(', ')}`)
+      lines.push(`${lang.certifications}: ${data.additional.certifications.join(', ')}`)
     }
     if (data.additional.achievements.length > 0) {
-      lines.push(`Achievements: ${data.additional.achievements.join(', ')}`)
+      lines.push(`${lang.achievements}: ${data.additional.achievements.join(', ')}`)
     }
     if (data.additional.technicalSkills.length > 0) {
-      lines.push(`Technical Skills: ${data.additional.technicalSkills.join(', ')}`)
+      lines.push(`${lang.technicalSkills}: ${data.additional.technicalSkills.join(', ')}`)
     }
     if (data.additional.softSkills.length > 0) {
-      lines.push(`Soft Skills: ${data.additional.softSkills.join(', ')}`)
+      lines.push(`${lang.softSkills}: ${data.additional.softSkills.join(', ')}`)
     }
   }
 

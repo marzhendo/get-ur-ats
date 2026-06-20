@@ -1,13 +1,15 @@
 'use client'
 
 import { useCVStore } from '@/lib/store'
+import { t } from '@/lib/i18n'
 
 export default function Summary() {
-  const { data, updateSummary } = useCVStore()
+  const { data, updateSummary, locale } = useCVStore()
+  const lang = t[locale]
 
   return (
     <section className="mb-8">
-      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">Professional Summary</h3>
+      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">{lang.professionalSummary}</h3>
       <textarea
         placeholder="A brief summary of your professional background and goals..."
         value={data.summary}

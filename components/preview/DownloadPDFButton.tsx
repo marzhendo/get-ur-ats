@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import { CVDocument } from '@/lib/pdf'
 import { useCVStore } from '@/lib/store'
 import { useEffect, useState } from 'react'
+import { t } from '@/lib/i18n'
 
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then(m => m.PDFDownloadLink),
@@ -11,7 +12,8 @@ const PDFDownloadLink = dynamic(
 )
 
 export default function DownloadPDFButton() {
-  const { data } = useCVStore()
+  const { data, locale } = useCVStore()
+  const lang = t[locale]
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -29,13 +31,13 @@ export default function DownloadPDFButton() {
   const fileName = `CV_${data.personal.name || 'Untitled'}.pdf`.replace(/\s+/g, '_')
 
   return (
-    <PDFDownloadLink document={<CVDocument data={data} />} fileName={fileName}>
+    <PDFDownloadLink document={<CVDocument data={data} locale={locale} />} fileName={fileName}>
       {({ loading }) => (
         <button 
           disabled={loading}
           className="px-4 py-2 bg-accent text-background rounded text-sm font-bold hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Generating...' : 'Download PDF'}
+          {loading ? 'Generating...' : lang.downloadPdf}
         </button>
       )}
     </PDFDownloadLink>

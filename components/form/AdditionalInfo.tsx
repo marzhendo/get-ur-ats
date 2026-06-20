@@ -3,9 +3,11 @@
 import { useCVStore } from '@/lib/store'
 import { useState } from 'react'
 import type { AdditionalInfo as AdditionalInfoType } from '@/types/cv'
+import { t } from '@/lib/i18n'
 
 export default function AdditionalInfo() {
-  const { data, updateAdditional } = useCVStore()
+  const { data, updateAdditional, locale } = useCVStore()
+  const lang = t[locale]
 
   const ArrayInput = ({ 
     title, 
@@ -66,11 +68,11 @@ export default function AdditionalInfo() {
 
   return (
     <section className="mb-8">
-      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">Additional Information</h3>
-      <ArrayInput title="Certifications" items={data.additional.certifications} field="certifications" />
-      <ArrayInput title="Achievements" items={data.additional.achievements} field="achievements" />
-      <ArrayInput title="Technical Skills" items={data.additional.technicalSkills} field="technicalSkills" />
-      <ArrayInput title="Soft Skills" items={data.additional.softSkills} field="softSkills" />
+      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">{lang.additionalInfo}</h3>
+      <ArrayInput title={lang.certifications} items={data.additional.certifications} field="certifications" />
+      <ArrayInput title={lang.achievements} items={data.additional.achievements} field="achievements" />
+      <ArrayInput title={lang.technicalSkills} items={data.additional.technicalSkills} field="technicalSkills" />
+      <ArrayInput title={lang.softSkills} items={data.additional.softSkills} field="softSkills" />
     </section>
   )
 }

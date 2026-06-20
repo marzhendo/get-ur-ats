@@ -1,13 +1,15 @@
 'use client'
 
 import { useCVStore } from '@/lib/store'
+import { t } from '@/lib/i18n'
 
 export default function Education() {
-  const { data, updateEducation } = useCVStore()
+  const { data, updateEducation, locale } = useCVStore()
+  const lang = t[locale]
 
   return (
     <section className="mb-8">
-      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">Education</h3>
+      <h3 className="text-xl font-bold mb-4 text-text border-b border-border pb-2">{lang.education}</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <input
           type="text"

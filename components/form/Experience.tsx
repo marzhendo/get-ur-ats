@@ -2,9 +2,11 @@
 
 import { useCVStore } from '@/lib/store'
 import { nanoid } from 'nanoid'
+import { t } from '@/lib/i18n'
 
 export default function Experience() {
-  const { data, addExperience, updateExperience, removeExperience } = useCVStore()
+  const { data, addExperience, updateExperience, removeExperience, locale } = useCVStore()
+  const lang = t[locale]
 
   const handleAdd = () => {
     addExperience({
@@ -34,9 +36,9 @@ export default function Experience() {
   return (
     <section className="mb-8">
       <div className="flex justify-between items-center mb-4 border-b border-border pb-2">
-        <h3 className="text-xl font-bold text-text">Professional Experience</h3>
+        <h3 className="text-xl font-bold text-text">{lang.experience}</h3>
         <button onClick={handleAdd} className="text-sm bg-accent text-background px-3 py-1 rounded font-medium hover:bg-opacity-90">
-          + Add Experience
+          + {lang.addEntry}
         </button>
       </div>
 
@@ -46,7 +48,7 @@ export default function Experience() {
             <div className="flex justify-between mb-4">
               <h4 className="font-semibold text-text">Experience Entry</h4>
               <button onClick={() => removeExperience(exp.id)} className="text-sm text-red-500 hover:text-red-400">
-                Remove
+                {lang.remove}
               </button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

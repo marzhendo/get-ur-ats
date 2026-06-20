@@ -3,9 +3,11 @@
 import { useCVStore } from '@/lib/store'
 import styles from './CVPreview.module.css'
 import { useEffect, useState } from 'react'
+import { t } from '@/lib/i18n'
 
 export default function CVPreview() {
-  const { data } = useCVStore()
+  const { data, locale } = useCVStore()
+  const lang = t[locale]
   // Prevent hydration mismatch
   const [mounted, setMounted] = useState(false)
 
@@ -79,7 +81,7 @@ export default function CVPreview() {
       {/* Summary */}
       {data.summary && (
         <>
-          <div className={styles.sectionHeader}>Professional Summary</div>
+          <div className={styles.sectionHeader}>{lang.cvSummary}</div>
           <div>{data.summary}</div>
         </>
       )}
@@ -87,7 +89,7 @@ export default function CVPreview() {
       {/* Education */}
       {(data.education.institution || data.education.degree) && (
         <>
-          <div className={styles.sectionHeader}>Education</div>
+          <div className={styles.sectionHeader}>{lang.cvEducation}</div>
           <div className={styles.entryHeader}>
             <span className={styles.company}>{data.education.institution}</span>
             <span className={styles.date}>{data.education.period}</span>
@@ -102,7 +104,7 @@ export default function CVPreview() {
       {/* Experience */}
       {data.experience.length > 0 && (
         <>
-          <div className={styles.sectionHeader}>Professional Experience</div>
+          <div className={styles.sectionHeader}>{lang.cvExperience}</div>
           {data.experience.map((exp) => (
             <div key={exp.id} style={{ marginBottom: '8px' }}>
               <div className={styles.entryHeader}>
@@ -130,18 +132,18 @@ export default function CVPreview() {
         data.additional.technicalSkills.length > 0 ||
         data.additional.softSkills.length > 0) && (
         <>
-          <div className={styles.sectionHeader}>Additional Information</div>
+          <div className={styles.sectionHeader}>{lang.cvAdditional}</div>
           {data.additional.certifications.length > 0 && (
-            <div><strong>Certifications:</strong> {data.additional.certifications.join(', ')}</div>
+            <div><strong>{lang.certifications}:</strong> {data.additional.certifications.join(', ')}</div>
           )}
           {data.additional.achievements.length > 0 && (
-            <div><strong>Achievements:</strong> {data.additional.achievements.join(', ')}</div>
+            <div><strong>{lang.achievements}:</strong> {data.additional.achievements.join(', ')}</div>
           )}
           {data.additional.technicalSkills.length > 0 && (
-            <div><strong>Technical Skills:</strong> {data.additional.technicalSkills.join(', ')}</div>
+            <div><strong>{lang.technicalSkills}:</strong> {data.additional.technicalSkills.join(', ')}</div>
           )}
           {data.additional.softSkills.length > 0 && (
-            <div><strong>Soft Skills:</strong> {data.additional.softSkills.join(', ')}</div>
+            <div><strong>{lang.softSkills}:</strong> {data.additional.softSkills.join(', ')}</div>
           )}
         </>
       )}

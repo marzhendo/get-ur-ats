@@ -4,9 +4,11 @@ import { useCVStore } from '@/lib/store'
 import { checkATS } from '@/lib/ats-checker'
 import { toPlainText } from '@/lib/plain-text'
 import { useState, useEffect } from 'react'
+import { t } from '@/lib/i18n'
 
 export default function ATSChecker() {
-  const { data } = useCVStore()
+  const { data, locale } = useCVStore()
+  const lang = t[locale]
   const [showModal, setShowModal] = useState(false)
   const [mounted, setMounted] = useState(false)
 
@@ -19,7 +21,7 @@ export default function ATSChecker() {
   const result = checkATS(data)
 
   const handleCopyText = async () => {
-    const text = toPlainText(data)
+    const text = toPlainText(data, locale)
     await navigator.clipboard.writeText(text)
     alert('CV copied to clipboard as plain text!')
   }
@@ -30,7 +32,7 @@ export default function ATSChecker() {
         onClick={() => setShowModal(true)}
         className={`px-4 py-2 rounded text-sm font-bold text-background ${result.passed ? 'bg-green-500' : 'bg-yellow-500'}`}
       >
-        ATS Score: {result.score}
+        {lang.atsScore}: {result.score}
       </button>
 
       {showModal && (
@@ -60,7 +62,7 @@ export default function ATSChecker() {
                 onClick={handleCopyText}
                 className="px-4 py-2 border border-border rounded hover:bg-background"
               >
-                Copy Plain Text
+                {lang.copyPlainText}
               </button>
               <button 
                 onClick={() => setShowModal(false)}

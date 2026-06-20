@@ -1,9 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { CVData, PersonalInfo, Education, ExperienceEntry, AdditionalInfo } from '@/types/cv'
+import type { Locale } from '@/lib/i18n'
 
 interface CVStore {
   data: CVData
+  locale: Locale
+  setLocale: (locale: Locale) => void
   updatePersonal: (patch: Partial<PersonalInfo>) => void
   updateSummary: (summary: string) => void
   updateEducation: (patch: Partial<Education>) => void
@@ -25,6 +28,8 @@ export const useCVStore = create<CVStore>()(
   persist(
     (set) => ({
       data: initialData,
+      locale: 'en',
+      setLocale: (locale) => set({ locale }),
       updatePersonal: (patch) =>
         set((state) => ({ data: { ...state.data, personal: { ...state.data.personal, ...patch } } })),
       updateSummary: (summary) =>
