@@ -80,13 +80,6 @@ export default function AdditionalInfo() {
         </h2>
       </div>
       <ArrayInput 
-        title={lang.certifications} 
-        items={data.additional.certifications} 
-        field="certifications" 
-        onAdd={handleAdd}
-        onRemove={handleRemove}
-      />
-      <ArrayInput 
         title={lang.achievements} 
         items={data.additional.achievements} 
         field="achievements" 

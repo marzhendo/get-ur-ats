@@ -4,6 +4,7 @@ import { useCVStore } from '@/lib/store'
 import styles from './CVPreview.module.css'
 import { t } from '@/lib/i18n'
 import { useIsMounted } from '@/lib/use-is-mounted'
+import { sortCertifications } from '@/lib/certifications-util'
 
 export default function CVPreview() {
   const { data, locale } = useCVStore()
@@ -121,16 +122,46 @@ export default function CVPreview() {
         </>
       )}
 
+      {/* Certifications */}
+      {(() => {
+        const sortedCerts = sortCertifications(data.certifications || [])
+        if (sortedCerts.length === 0) return null
+        return (
+          <>
+            <div className={styles.sectionHeader}>{lang.cvCertifications}</div>
+            {sortedCerts.map((cert) => (
+              <div key={cert.id} style={{ marginBottom: '6px' }}>
+                <div className={styles.entryHeader}>
+                  <span className={styles.entryTitle}>
+                    <strong>{cert.name}</strong>{cert.issuer ? ` | ${cert.issuer}` : ''}
+                    {cert.credentialId ? ` (ID: ${cert.credentialId})` : ''}
+                  </span>
+                  <span className={styles.entryDate}>{cert.issueDate || ''}</span>
+                </div>
+                {cert.url && (
+                  <div style={{ fontSize: '10px', marginTop: '1px' }}>
+                    <a
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.link}
+                    >
+                      {cert.url}
+                    </a>
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
+        )
+      })()}
+
       {/* Additional Info */}
-      {(data.additional.certifications.length > 0 ||
-        data.additional.achievements.length > 0 ||
+      {(data.additional.achievements.length > 0 ||
         data.additional.technicalSkills.length > 0 ||
         data.additional.softSkills.length > 0) && (
         <>
           <div className={styles.sectionHeader}>{lang.cvAdditional}</div>
-          {data.additional.certifications.length > 0 && (
-            <div><strong>{lang.certifications}:</strong> {data.additional.certifications.join(', ')}</div>
-          )}
           {data.additional.achievements.length > 0 && (
             <div><strong>{lang.achievements}:</strong> {data.additional.achievements.join(', ')}</div>
           )}

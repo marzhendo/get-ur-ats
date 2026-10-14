@@ -1,6 +1,7 @@
 import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/renderer'
 import type { CVData } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
+import { sortCertifications } from '@/lib/certifications-util'
 
 const styles = StyleSheet.create({
   page: {
@@ -175,19 +176,40 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
           </View>
         )}
 
+        {/* Certifications */}
+        {(() => {
+          const sortedCerts = sortCertifications(data.certifications || [])
+          if (sortedCerts.length === 0) return null
+          return (
+            <View>
+              <Text style={styles.sectionHeader}>{lang.cvCertifications}</Text>
+              {sortedCerts.map((cert) => (
+                <View key={cert.id} wrap={false} style={{ marginBottom: 6 }}>
+                  <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>
+                      <Text style={styles.bold}>{cert.name}</Text>
+                      {cert.issuer ? ` | ${cert.issuer}` : ''}
+                      {cert.credentialId ? ` (ID: ${cert.credentialId})` : ''}
+                    </Text>
+                    <Text style={styles.entryDate}>{cert.issueDate || ''}</Text>
+                  </View>
+                  {cert.url && (
+                    <Link src={cert.url} style={{ ...styles.link, fontSize: 9, marginTop: 1 }}>
+                      {cert.url}
+                    </Link>
+                  )}
+                </View>
+              ))}
+            </View>
+          )
+        })()}
+
         {/* Additional Info */}
-        {(data.additional.certifications.length > 0 ||
-          data.additional.achievements.length > 0 ||
+        {(data.additional.achievements.length > 0 ||
           data.additional.technicalSkills.length > 0 ||
           data.additional.softSkills.length > 0) && (
           <View>
             <Text style={styles.sectionHeader}>{lang.cvAdditional}</Text>
-            {data.additional.certifications.length > 0 && (
-              <Text>
-                <Text style={styles.bold}>{lang.certifications}: </Text>
-                {data.additional.certifications.join(', ')}
-              </Text>
-            )}
             {data.additional.achievements.length > 0 && (
               <Text>
                 <Text style={styles.bold}>{lang.achievements}: </Text>

@@ -4,6 +4,7 @@ import PersonalInfo from '@/components/form/PersonalInfo'
 import Summary from '@/components/form/Summary'
 import Education from '@/components/form/Education'
 import Experience from '@/components/form/Experience'
+import CertificationForm from '@/components/form/CertificationForm'
 import AdditionalInfo from '@/components/form/AdditionalInfo'
 import Link from 'next/link'
 import CVPreview from '@/components/preview/CVPreview'
@@ -56,6 +57,7 @@ export default function BuilderPage() {
         <Summary />
         <Education />
         <Experience />
+        <CertificationForm />
         <AdditionalInfo />
 
         {/* Sticky Mobile Bottom Bar (Form Tab Only) */}

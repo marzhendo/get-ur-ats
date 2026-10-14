@@ -1,4 +1,5 @@
 import { CVData } from '@/types/cv'
+import { isValidHttpsUrl } from '@/lib/certifications-util'
 
 export function checkATS(data: CVData) {
   let score = 100
@@ -32,15 +33,39 @@ export function checkATS(data: CVData) {
   if (data.summary) filledSections++
   if (data.education.institution) filledSections++
   if (data.experience.length > 0) filledSections++
-  if (data.additional.technicalSkills.length > 0 || data.additional.softSkills.length > 0 || data.additional.certifications.length > 0) filledSections++
+  if (
+    data.additional.technicalSkills.length > 0 || 
+    data.additional.softSkills.length > 0 || 
+    data.additional.certifications.length > 0 ||
+    (data.certifications && data.certifications.length > 0)
+  ) filledSections++
 
   if (filledSections < 4) {
-    warnings.push('Missing section content (Ensure Summary, Education, Experience, and Additional info have content).')
+    warnings.push('Missing section content (Ensure Summary, Education, Experience, and Additional info/Certifications have content).')
     score -= 10
   }
 
   if (data.mode === 'standard') {
     warnings.push('Standard Mode is active. Note: Adding photos may reduce parsing accuracy in some automated ATS systems.')
+  }
+
+  if (data.certifications && data.certifications.length > 0) {
+    data.certifications.forEach((cert, idx) => {
+      if (!cert.name || !cert.issuer) {
+        warnings.push(`Certification ${idx + 1} is missing required name or issuer.`)
+        score -= 5
+      }
+      if (cert.url && !isValidHttpsUrl(cert.url)) {
+        warnings.push(`Certification ${idx + 1} has an invalid or insecure URL (must start with https://).`)
+        score -= 5
+      }
+      if (cert.issueDate && cert.expiryDate && cert.expiryDate < cert.issueDate) {
+        warnings.push(`Certification "${cert.name || idx + 1}" has expiry date earlier than issue date.`)
+        score -= 5
+      }
+      checkText(cert.name, `Certification ${idx + 1} Name`)
+      checkText(cert.issuer, `Certification ${idx + 1} Issuer`)
+    })
   }
 
   // Check all text
