@@ -183,7 +183,7 @@ export default function CertificationForm() {
                   />
                   {!isUrlValid && (
                     <span className="text-[10px] text-red-500 ml-1">
-                      Only https:// URLs are accepted
+                      {lang.certUrlError}
                     </span>
                   )}
                 </div>
@@ -198,7 +198,7 @@ export default function CertificationForm() {
 
         {certs.length === 0 && (
           <p className="text-muted text-sm text-center py-4">
-            No certifications added yet. Click &quot;+ {lang.addEntry}&quot; above.
+            {lang.noCertifications}
           </p>
         )}
       </div>

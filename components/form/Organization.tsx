@@ -89,7 +89,7 @@ export default function Organization() {
                   required
                 />
                 {!org.organization && (
-                  <span className="text-[10px] text-muted ml-1">Required</span>
+                  <span className="text-[10px] text-muted ml-1">{lang.required}</span>
                 )}
               </div>
 
@@ -103,7 +103,7 @@ export default function Organization() {
                   required
                 />
                 {!org.role && (
-                  <span className="text-[10px] text-muted ml-1">Required</span>
+                  <span className="text-[10px] text-muted ml-1">{lang.required}</span>
                 )}
               </div>
 
@@ -144,7 +144,7 @@ export default function Organization() {
                 <div key={idx} className="flex gap-2">
                   <input
                     type="text"
-                    placeholder="Key contribution or achievement..."
+                    placeholder={lang.bulletContributionPlaceholder}
                     value={bullet}
                     onChange={(e) => handleUpdateBullet(org.id, org.bullets, idx, e.target.value)}
                     className="flex-1 p-2 bg-surface border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
@@ -171,7 +171,7 @@ export default function Organization() {
 
         {orgs.length === 0 && (
           <p className="text-muted text-sm text-center py-4">
-            No organizational experience entries yet. Click &quot;+ {lang.addEntry}&quot; above.
+            {lang.noOrganizations}
           </p>
         )}
       </div>

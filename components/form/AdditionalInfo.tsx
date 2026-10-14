@@ -9,11 +9,12 @@ interface ArrayInputProps {
   title: string
   items: string[]
   field: keyof AdditionalInfoType
+  addLabel: string
   onAdd: (field: keyof AdditionalInfoType, value: string) => void
   onRemove: (field: keyof AdditionalInfoType, index: number) => void
 }
 
-function ArrayInput({ title, items, field, onAdd, onRemove }: ArrayInputProps) {
+function ArrayInput({ title, items, field, addLabel, onAdd, onRemove }: ArrayInputProps) {
   const [inputValue, setInputValue] = useState('')
 
   const handleAdd = () => {
@@ -36,14 +37,14 @@ function ArrayInput({ title, items, field, onAdd, onRemove }: ArrayInputProps) {
       <div className="flex gap-2 mb-2">
         <input
           type="text"
-          placeholder={`Add ${title.toLowerCase()}... (Press Enter)`}
+          placeholder={`${addLabel} ${title}... (Enter)`}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           className="flex-1 p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
         />
         <button onClick={handleAdd} className="bg-surface border border-border px-4 rounded text-text hover:bg-border">
-          Add
+          {addLabel}
         </button>
       </div>
       <div className="flex flex-wrap gap-2">
@@ -83,6 +84,7 @@ export default function AdditionalInfo() {
         title={lang.achievements} 
         items={data.additional.achievements} 
         field="achievements" 
+        addLabel={lang.add}
         onAdd={handleAdd}
         onRemove={handleRemove}
       />
@@ -90,6 +92,7 @@ export default function AdditionalInfo() {
         title={lang.technicalSkills} 
         items={data.additional.technicalSkills} 
         field="technicalSkills" 
+        addLabel={lang.add}
         onAdd={handleAdd}
         onRemove={handleRemove}
       />
@@ -97,6 +100,7 @@ export default function AdditionalInfo() {
         title={lang.softSkills} 
         items={data.additional.softSkills} 
         field="softSkills" 
+        addLabel={lang.add}
         onAdd={handleAdd}
         onRemove={handleRemove}
       />

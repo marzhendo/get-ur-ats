@@ -36,9 +36,7 @@ export default function PhotoUploader() {
       const img = await loadImageFromFile(file)
       setSelectedImage(img)
     } catch {
-      setErrorMessage(
-        locale === 'id' ? 'Gagal memuat gambar.' : 'Failed to load image file.'
-      )
+      setErrorMessage(lang.photoLoadError)
     }
 
     if (fileInputRef.current) fileInputRef.current.value = ''
@@ -98,14 +96,10 @@ export default function PhotoUploader() {
 
           <div>
             <h4 className="text-sm font-semibold text-text">
-              {photo
-                ? (locale === 'id' ? 'Foto Profil Terpasang' : 'Profile Photo Active')
-                : (locale === 'id' ? 'Foto Profil (Mode Standar)' : 'Profile Photo (Standard Mode)')}
+              {photo ? lang.photoActiveTitle : lang.photoEmptyTitle}
             </h4>
             <p className="text-xs text-muted mt-0.5">
-              {photo
-                ? (locale === 'id' ? 'Foto 3:4 akan ditampilkan di header PDF & Preview.' : '3:4 photo will appear in PDF & Preview header.')
-                : (locale === 'id' ? 'Maksimal 10 MB (JPEG, PNG, WebP). Rasio 3:4.' : 'Max 10 MB (JPEG, PNG, WebP). 3:4 ratio.')}
+              {photo ? lang.photoActiveDesc : lang.photoEmptyDesc}
             </p>
           </div>
         </div>

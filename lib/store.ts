@@ -116,53 +116,56 @@ export const useCVStore = create<CVStore>()(
     {
       name: 'ats-cv-builder-v1',
       version: 2,
-      migrate: (persistedState: unknown, version: number) => {
-        try {
-          const state = (persistedState || {}) as { data?: Partial<CVData>; locale?: Locale }
-          if (!version || version < 2) {
-            const oldData = state.data || {}
-            const migratedData: CVData = {
-              ...initialData,
-              ...oldData,
-              mode: oldData.mode || 'ats',
-              personal: { ...initialData.personal, ...(oldData.personal || {}) },
-              education: { ...initialData.education, ...(oldData.education || {}) },
-              experience: Array.isArray(oldData.experience) ? oldData.experience : [],
-              organizations: Array.isArray(oldData.organizations) ? oldData.organizations : [],
-              certifications: Array.isArray(oldData.certifications) ? oldData.certifications : [],
-              additional: {
-                ...initialData.additional,
-                ...(oldData.additional || {}),
-                certifications: Array.isArray(oldData.additional?.certifications)
-                  ? oldData.additional.certifications
-                  : [],
-                achievements: Array.isArray(oldData.additional?.achievements)
-                  ? oldData.additional.achievements
-                  : [],
-                technicalSkills: Array.isArray(oldData.additional?.technicalSkills)
-                  ? oldData.additional.technicalSkills
-                  : [],
-                softSkills: Array.isArray(oldData.additional?.softSkills)
-                  ? oldData.additional.softSkills
-                  : [],
-              },
-            }
-            return {
-              ...state,
-              locale: state.locale || 'en',
-              data: migratedData,
-            }
-          }
-          return state as CVStore
-        } catch (e) {
-          console.error('Migration failed, fallback to initial state:', e)
-          return {
-            data: initialData,
-            locale: 'en',
-          } as CVStore
-        }
-      },
+      migrate: (persistedState: unknown, version: number) =>
+        migrateCVState(persistedState, version),
     }
   )
 )
+
+export function migrateCVState(persistedState: unknown, version: number) {
+  try {
+    const state = (persistedState || {}) as { data?: Partial<CVData>; locale?: Locale }
+    if (!version || version < 2) {
+      const oldData = state.data || {}
+      const migratedData: CVData = {
+        ...initialData,
+        ...oldData,
+        mode: oldData.mode || 'ats',
+        personal: { ...initialData.personal, ...(oldData.personal || {}) },
+        education: { ...initialData.education, ...(oldData.education || {}) },
+        experience: Array.isArray(oldData.experience) ? oldData.experience : [],
+        organizations: Array.isArray(oldData.organizations) ? oldData.organizations : [],
+        certifications: Array.isArray(oldData.certifications) ? oldData.certifications : [],
+        additional: {
+          ...initialData.additional,
+          ...(oldData.additional || {}),
+          certifications: Array.isArray(oldData.additional?.certifications)
+            ? oldData.additional.certifications
+            : [],
+          achievements: Array.isArray(oldData.additional?.achievements)
+            ? oldData.additional.achievements
+            : [],
+          technicalSkills: Array.isArray(oldData.additional?.technicalSkills)
+            ? oldData.additional.technicalSkills
+            : [],
+          softSkills: Array.isArray(oldData.additional?.softSkills)
+            ? oldData.additional.softSkills
+            : [],
+        },
+      }
+      return {
+        ...state,
+        locale: state.locale || 'en',
+        data: migratedData,
+      }
+    }
+    return state as CVStore
+  } catch (e) {
+    console.error('Migration failed, fallback to initial state:', e)
+    return {
+      data: initialData,
+      locale: 'en',
+    } as CVStore
+  }
+}
 
