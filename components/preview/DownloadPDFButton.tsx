@@ -3,8 +3,8 @@
 import dynamic from 'next/dynamic'
 import { CVDocument } from '@/lib/pdf'
 import { useCVStore } from '@/lib/store'
-import { useEffect, useState } from 'react'
 import { t } from '@/lib/i18n'
+import { useIsMounted } from '@/lib/use-is-mounted'
 
 const PDFDownloadLink = dynamic(
   () => import('@react-pdf/renderer').then(m => m.PDFDownloadLink),
@@ -14,11 +14,7 @@ const PDFDownloadLink = dynamic(
 export default function DownloadPDFButton() {
   const { data, locale } = useCVStore()
   const lang = t[locale]
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useIsMounted()
 
   if (!mounted) {
     return (

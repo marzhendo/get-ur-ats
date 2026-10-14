@@ -2,18 +2,13 @@
 
 import { useCVStore } from '@/lib/store'
 import styles from './CVPreview.module.css'
-import { useEffect, useState } from 'react'
 import { t } from '@/lib/i18n'
+import { useIsMounted } from '@/lib/use-is-mounted'
 
 export default function CVPreview() {
   const { data, locale } = useCVStore()
   const lang = t[locale]
-  // Prevent hydration mismatch
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useIsMounted()
 
   if (!mounted) {
     return <div className={styles.page}></div>

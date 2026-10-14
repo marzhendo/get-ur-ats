@@ -11,16 +11,13 @@ import DownloadPDFButton from '@/components/preview/DownloadPDFButton'
 import ATSChecker from '@/components/preview/ATSChecker'
 import { useCVStore } from '@/lib/store'
 import { t } from '@/lib/i18n'
-import { useEffect, useState } from 'react'
+import { useIsMounted } from '@/lib/use-is-mounted'
+import { useState } from 'react'
 
 export default function BuilderPage() {
   const { locale, setLocale } = useCVStore()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsMounted()
   const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const lang = mounted ? t[locale] : t['en']
 
