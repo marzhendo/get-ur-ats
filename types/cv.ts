@@ -1,4 +1,33 @@
 // types/cv.ts
+export type CVMode = 'ats' | 'standard'
+
+export interface Certification {
+  id: string
+  name: string
+  issuer: string
+  issueDate?: string
+  expiryDate?: string
+  credentialId?: string
+  url?: string
+}
+
+export interface CVPhoto {
+  dataUrl: string
+  width: number
+  height: number
+  updatedAt: number
+}
+
+export interface OrganizationEntry {
+  id: string
+  organization: string
+  role: string
+  startDate?: string
+  endDate?: string
+  isCurrent?: boolean
+  bullets: string[]
+}
+
 export interface PersonalInfo {
   name: string
   city: string
@@ -33,9 +62,13 @@ export interface AdditionalInfo {
 }
 
 export interface CVData {
+  mode: CVMode
   personal: PersonalInfo
   summary: string
   education: Education
   experience: ExperienceEntry[]
+  organizations: OrganizationEntry[]
+  certifications: Certification[]
   additional: AdditionalInfo
 }
+
