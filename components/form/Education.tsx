@@ -52,13 +52,18 @@ export default function Education() {
           onChange={(e) => updateEducation({ coursework: e.target.value })}
           className="w-full p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
         />
-        <input
-          type="text"
-          placeholder="Activities and Societies"
-          value={data.education.activities}
-          onChange={(e) => updateEducation({ activities: e.target.value })}
-          className="w-full p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="Activities and Societies (optional)"
+            value={data.education.activities}
+            onChange={(e) => updateEducation({ activities: e.target.value })}
+            className="w-full p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
+          />
+          <p className="text-[11px] text-muted mt-1 italic">
+            {lang.activitiesNote}
+          </p>
+        </div>
       </div>
     </section>
   )

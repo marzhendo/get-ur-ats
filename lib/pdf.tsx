@@ -2,6 +2,7 @@ import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/rendere
 import type { CVData } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
 import { sortCertifications } from '@/lib/certifications-util'
+import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
 
 const styles = StyleSheet.create({
   page: {
@@ -155,7 +156,7 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
         {data.experience.length > 0 && (
           <View>
             <Text style={styles.sectionHeader}>{lang.cvExperience}</Text>
-            {data.experience.map((exp) => (
+            {sortExperiences(data.experience).map((exp) => (
               <View key={exp.id} style={{ marginBottom: 8 }}>
                 <View style={styles.entryHeader}>
                   <Text style={styles.entryTitle}>
@@ -175,6 +176,37 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
             ))}
           </View>
         )}
+
+        {/* Organizational Experience */}
+        {(() => {
+          const sortedOrgs = sortOrganizations(data.organizations || [])
+          if (sortedOrgs.length === 0) return null
+          return (
+            <View>
+              <Text style={styles.sectionHeader}>{lang.cvOrganizations}</Text>
+              {sortedOrgs.map((org) => (
+                <View key={org.id} style={{ marginBottom: 8 }}>
+                  <View style={styles.entryHeader}>
+                    <Text style={styles.entryTitle}>
+                      {org.organization}{org.role && org.organization ? ' | ' : ''}{org.role}
+                    </Text>
+                    <Text style={styles.entryDate}>
+                      {formatOrganizationPeriod(org, locale === 'id')}
+                    </Text>
+                  </View>
+                  <View>
+                    {org.bullets.filter(Boolean).map((bullet, idx) => (
+                      <View key={idx} style={styles.bulletItem}>
+                        <Text style={styles.bullet}>• </Text>
+                        <Text style={styles.bulletText}>{bullet}</Text>
+                      </View>
+                    ))}
+                  </View>
+                </View>
+              ))}
+            </View>
+          )
+        })()}
 
         {/* Certifications */}
         {(() => {

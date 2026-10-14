@@ -4,6 +4,7 @@ import PersonalInfo from '@/components/form/PersonalInfo'
 import Summary from '@/components/form/Summary'
 import Education from '@/components/form/Education'
 import Experience from '@/components/form/Experience'
+import Organization from '@/components/form/Organization'
 import CertificationForm from '@/components/form/CertificationForm'
 import AdditionalInfo from '@/components/form/AdditionalInfo'
 import Link from 'next/link'
@@ -57,6 +58,7 @@ export default function BuilderPage() {
         <Summary />
         <Education />
         <Experience />
+        <Organization />
         <CertificationForm />
         <AdditionalInfo />
 

@@ -5,6 +5,7 @@ import styles from './CVPreview.module.css'
 import { t } from '@/lib/i18n'
 import { useIsMounted } from '@/lib/use-is-mounted'
 import { sortCertifications } from '@/lib/certifications-util'
+import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
 
 export default function CVPreview() {
   const { data, locale } = useCVStore()
@@ -101,7 +102,7 @@ export default function CVPreview() {
       {data.experience.length > 0 && (
         <>
           <div className={styles.sectionHeader}>{lang.cvExperience}</div>
-          {data.experience.map((exp) => (
+          {sortExperiences(data.experience).map((exp) => (
             <div key={exp.id} style={{ marginBottom: '8px' }}>
               <div className={styles.entryHeader}>
                 <span className={styles.entryTitle}>
@@ -121,6 +122,37 @@ export default function CVPreview() {
           ))}
         </>
       )}
+
+      {/* Organizational Experience */}
+      {(() => {
+        const sortedOrgs = sortOrganizations(data.organizations || [])
+        if (sortedOrgs.length === 0) return null
+        return (
+          <>
+            <div className={styles.sectionHeader}>{lang.cvOrganizations}</div>
+            {sortedOrgs.map((org) => (
+              <div key={org.id} style={{ marginBottom: '8px' }}>
+                <div className={styles.entryHeader}>
+                  <span className={styles.entryTitle}>
+                    {org.organization}{org.role && org.organization ? ' | ' : ''}{org.role}
+                  </span>
+                  <span className={styles.entryDate}>
+                    {formatOrganizationPeriod(org, locale === 'id')}
+                  </span>
+                </div>
+                <ul className={styles.bulletList}>
+                  {org.bullets.filter(Boolean).map((bullet, idx) => (
+                    <li key={idx} className={styles.bulletItem}>
+                      <span className={styles.bullet}></span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </>
+        )
+      })()}
 
       {/* Certifications */}
       {(() => {

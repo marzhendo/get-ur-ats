@@ -68,6 +68,18 @@ export function checkATS(data: CVData) {
     })
   }
 
+  if (data.organizations && data.organizations.length > 0) {
+    data.organizations.forEach((org, idx) => {
+      if (!org.organization || !org.role) {
+        warnings.push(`Organization entry ${idx + 1} is missing required organization name or role.`)
+        score -= 5
+      }
+      checkText(org.organization, `Organization ${idx + 1} Name`)
+      checkText(org.role, `Organization ${idx + 1} Role`)
+      org.bullets.forEach((b, j) => checkText(b, `Organization ${idx + 1} Bullet ${j + 1}`))
+    })
+  }
+
   // Check all text
   checkText(data.personal.name, 'Name')
   checkText(data.summary, 'Summary')

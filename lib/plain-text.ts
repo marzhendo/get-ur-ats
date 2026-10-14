@@ -1,6 +1,7 @@
 import { CVData } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
 import { sortCertifications } from '@/lib/certifications-util'
+import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
 
 export function toPlainText(data: CVData, locale: Locale): string {
   const lang = t[locale]
@@ -40,9 +41,24 @@ export function toPlainText(data: CVData, locale: Locale): string {
   if (data.experience.length > 0) {
     lines.push(lang.cvExperience)
     lines.push('---')
-    data.experience.forEach(exp => {
+    sortExperiences(data.experience).forEach(exp => {
       lines.push(`${exp.company} | ${exp.title} | ${exp.period}`)
       exp.bullets.filter(Boolean).forEach(bullet => {
+        lines.push(`• ${bullet}`)
+      })
+      lines.push('')
+    })
+  }
+
+  const sortedOrgs = sortOrganizations(data.organizations || [])
+  if (sortedOrgs.length > 0) {
+    lines.push(lang.cvOrganizations)
+    lines.push('---')
+    sortedOrgs.forEach(org => {
+      const period = formatOrganizationPeriod(org, locale === 'id')
+      const headerParts = [org.organization, org.role, period].filter(Boolean)
+      lines.push(headerParts.join(' | '))
+      org.bullets.filter(Boolean).forEach(bullet => {
         lines.push(`• ${bullet}`)
       })
       lines.push('')
