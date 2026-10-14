@@ -39,6 +39,10 @@ export function checkATS(data: CVData) {
     score -= 10
   }
 
+  if (data.mode === 'standard') {
+    warnings.push('Standard Mode is active. Note: Adding photos may reduce parsing accuracy in some automated ATS systems.')
+  }
+
   // Check all text
   checkText(data.personal.name, 'Name')
   checkText(data.summary, 'Summary')

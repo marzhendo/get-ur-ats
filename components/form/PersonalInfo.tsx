@@ -58,6 +58,12 @@ export default function PersonalInfo() {
           className="p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
         />
       </div>
+
+      <div className="mt-4 p-3 rounded bg-background border border-border flex items-center justify-between text-xs">
+        <span className={data.mode === 'standard' ? 'text-text font-medium' : 'text-muted'}>
+          {data.mode === 'standard' ? lang.photoEnabledStandard : lang.photoDisabledAts}
+        </span>
+      </div>
     </section>
   )
 }

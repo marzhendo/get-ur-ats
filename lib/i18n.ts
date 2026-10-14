@@ -23,6 +23,14 @@ export const t = {
     cvExperience: 'PROFESSIONAL EXPERIENCE',
     cvAdditional: 'ADDITIONAL INFORMATION',
     atsScore: 'ATS Score',
+    mode: 'Mode',
+    atsMode: 'ATS Mode',
+    standardMode: 'Standard Mode',
+    modeDescriptionAts: 'Optimized for ATS parsers (no photo)',
+    modeDescriptionStandard: 'Standard format (photo enabled)',
+    standardModeWarning: 'Standard mode is active with a photo. Note that photos can reduce readability for some automated ATS systems.',
+    photoDisabledAts: 'Profile photo is disabled in ATS Mode for optimal parsing.',
+    photoEnabledStandard: 'Profile photo is enabled in Standard Mode (configurable in Phase 4).',
   },
   id: {
     pageTitle: 'Detail CV',
@@ -46,5 +54,13 @@ export const t = {
     cvExperience: 'PENGALAMAN PROFESIONAL',
     cvAdditional: 'INFORMASI TAMBAHAN',
     atsScore: 'Skor ATS',
+    mode: 'Mode',
+    atsMode: 'Mode ATS',
+    standardMode: 'Mode Standar',
+    modeDescriptionAts: 'Dioptimalkan untuk parser ATS (tanpa foto)',
+    modeDescriptionStandard: 'Format standar (dengan foto)',
+    standardModeWarning: 'Mode standar aktif dengan foto. Perhatikan bahwa foto dapat mengurangi keterbacaan beberapa sistem ATS otomatis.',
+    photoDisabledAts: 'Foto profil dinonaktifkan di Mode ATS untuk keterbacaan parser yang optimal.',
+    photoEnabledStandard: 'Foto profil aktif di Mode Standar (dikonfigurasi pada Phase 4).',
   }
 } satisfies Record<Locale, Record<string, string>>

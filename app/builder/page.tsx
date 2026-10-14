@@ -9,6 +9,7 @@ import Link from 'next/link'
 import CVPreview from '@/components/preview/CVPreview'
 import DownloadPDFButton from '@/components/preview/DownloadPDFButton'
 import ATSChecker from '@/components/preview/ATSChecker'
+import ModeToggle from '@/components/ui/ModeToggle'
 import { useCVStore } from '@/lib/store'
 import { t } from '@/lib/i18n'
 import { useIsMounted } from '@/lib/use-is-mounted'
@@ -50,6 +51,7 @@ export default function BuilderPage() {
         <h2 className="text-2xl font-bold mb-4 text-text">{lang.pageTitle}</h2>
         <p className="text-muted mb-6">{lang.pageSubtitle}</p>
         
+        <ModeToggle />
         <PersonalInfo />
         <Summary />
         <Education />
