@@ -87,6 +87,48 @@ export function checkATS(data: CVData) {
     exp.bullets.forEach((b, j) => checkText(b, `Experience ${i+1} Bullet ${j+1}`))
   })
 
+  // Estimate page count for OD-21 warning (> 2 pages)
+  let estimatedLines = 6 // Personal info and contact
+  if (data.summary) {
+    estimatedLines += 2 + Math.max(1, Math.ceil(data.summary.length / 85))
+  }
+  if (data.education.institution || data.education.degree) {
+    estimatedLines += 5
+  }
+  if (data.experience.length > 0) {
+    estimatedLines += 2
+    data.experience.forEach((exp) => {
+      estimatedLines += 2
+      exp.bullets.filter(Boolean).forEach((b) => {
+        estimatedLines += Math.max(1, Math.ceil(b.length / 85))
+      })
+    })
+  }
+  if (data.organizations && data.organizations.length > 0) {
+    estimatedLines += 2
+    data.organizations.forEach((org) => {
+      estimatedLines += 2
+      org.bullets.filter(Boolean).forEach((b) => {
+        estimatedLines += Math.max(1, Math.ceil(b.length / 85))
+      })
+    })
+  }
+  if (data.certifications && data.certifications.length > 0) {
+    estimatedLines += 2 + data.certifications.length * 2
+  }
+  if (
+    data.additional.achievements.length > 0 ||
+    data.additional.technicalSkills.length > 0 ||
+    data.additional.softSkills.length > 0
+  ) {
+    estimatedLines += 5
+  }
+
+  const estimatedPages = Math.ceil(estimatedLines / 44)
+  if (estimatedPages > 2) {
+    warnings.push(`CV length exceeds 2 pages (estimated ~${estimatedPages} pages). Recruiters and ATS screening generally favor a concise 1-2 page CV.`)
+  }
+
   score = Math.max(0, score)
   return { score, warnings, passed: score >= 80 }
 }

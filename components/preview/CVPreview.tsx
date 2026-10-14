@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useState, useEffect } from 'react'
 import { useCVStore } from '@/lib/store'
 import styles from './CVPreview.module.css'
 import { t } from '@/lib/i18n'
@@ -11,6 +12,30 @@ export default function CVPreview() {
   const { data, locale } = useCVStore()
   const lang = t[locale]
   const mounted = useIsMounted()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [pageBoundaries, setPageBoundaries] = useState<number[]>([])
+
+  useEffect(() => {
+    if (!containerRef.current) return
+
+    const updatePages = () => {
+      const el = containerRef.current
+      if (!el) return
+      const height = el.scrollHeight
+      const pageHeight = 1056 // US Letter height at 96dpi
+      const count = Math.floor(height / pageHeight)
+      const boundaries: number[] = []
+      for (let i = 1; i <= count; i++) {
+        boundaries.push(i * pageHeight)
+      }
+      setPageBoundaries(boundaries)
+    }
+
+    updatePages()
+    const resizeObserver = new ResizeObserver(updatePages)
+    resizeObserver.observe(containerRef.current)
+    return () => resizeObserver.disconnect()
+  }, [data, mounted])
 
   if (!mounted) {
     return <div className={styles.page}></div>
@@ -70,7 +95,7 @@ export default function CVPreview() {
   }
 
   return (
-    <div className={styles.page}>
+    <div ref={containerRef} className={styles.page}>
       {/* Personal Info */}
       <div className={styles.name}>{data.personal.name || 'YOUR NAME'}</div>
       {renderContactItems()}
@@ -205,6 +230,22 @@ export default function CVPreview() {
           )}
         </>
       )}
+
+      {/* Visual Page Break Boundary Markers (OD-19 Opsi a) */}
+      {pageBoundaries.map((topOffset, idx) => (
+        <div
+          key={idx}
+          className={styles.pageBreakIndicator}
+          style={{ top: `${topOffset}px` }}
+          aria-hidden="true"
+        >
+          <span className={styles.pageBreakBadge}>
+            {locale === 'id' 
+              ? `--- Halaman ${idx + 2} (Perkiraan Letter) ---` 
+              : `--- Page ${idx + 2} (Letter Est.) ---`}
+          </span>
+        </div>
+      ))}
     </div>
   )
 }
