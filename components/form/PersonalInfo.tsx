@@ -2,6 +2,7 @@
 
 import { useCVStore } from '@/lib/store'
 import { t } from '@/lib/i18n'
+import PhotoUploader from '@/components/form/PhotoUploader'
 
 export default function PersonalInfo() {
   const { data, updatePersonal, locale } = useCVStore()
@@ -57,6 +58,10 @@ export default function PersonalInfo() {
           onChange={(e) => updatePersonal({ portfolio: e.target.value })}
           className="p-2 bg-background border border-border rounded text-text focus:border-l-2 focus:border-accent focus:outline-none"
         />
+      </div>
+
+      <div className="mt-4">
+        <PhotoUploader />
       </div>
     </section>
   )

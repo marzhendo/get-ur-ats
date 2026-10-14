@@ -4,23 +4,23 @@ import PersonalInfo from '@/components/form/PersonalInfo'
 import Summary from '@/components/form/Summary'
 import Education from '@/components/form/Education'
 import Experience from '@/components/form/Experience'
+import Organization from '@/components/form/Organization'
+import CertificationForm from '@/components/form/CertificationForm'
 import AdditionalInfo from '@/components/form/AdditionalInfo'
 import Link from 'next/link'
 import CVPreview from '@/components/preview/CVPreview'
 import DownloadPDFButton from '@/components/preview/DownloadPDFButton'
 import ATSChecker from '@/components/preview/ATSChecker'
+import ModeToggle from '@/components/ui/ModeToggle'
 import { useCVStore } from '@/lib/store'
 import { t } from '@/lib/i18n'
-import { useEffect, useState } from 'react'
+import { useIsMounted } from '@/lib/use-is-mounted'
+import { useState } from 'react'
 
 export default function BuilderPage() {
   const { locale, setLocale } = useCVStore()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsMounted()
   const [mobileTab, setMobileTab] = useState<'form' | 'preview'>('form')
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const lang = mounted ? t[locale] : t['en']
 
@@ -53,10 +53,13 @@ export default function BuilderPage() {
         <h2 className="text-2xl font-bold mb-4 text-text">{lang.pageTitle}</h2>
         <p className="text-muted mb-6">{lang.pageSubtitle}</p>
         
+        <ModeToggle />
         <PersonalInfo />
         <Summary />
         <Education />
         <Experience />
+        <Organization />
+        <CertificationForm />
         <AdditionalInfo />
 
         {/* Sticky Mobile Bottom Bar (Form Tab Only) */}

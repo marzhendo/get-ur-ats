@@ -1,6 +1,9 @@
-import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/renderer'
-import type { CVData } from '@/types/cv'
+import { Document, Page, View, Text, StyleSheet, Link, Image } from '@react-pdf/renderer'
+import type { CVData, CVPhoto } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
+import { sortCertifications } from '@/lib/certifications-util'
+import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
+import { PDFSection, PDFEntryHeader, PDFEntry } from '@/components/pdf/LayoutComponents'
 
 const styles = StyleSheet.create({
   page: {
@@ -21,40 +24,29 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 8,
   },
-  sectionHeader: {
+  headerWithPhoto: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  profilePhoto: {
+    width: 60,
+    height: 80, // 3:4 aspect ratio
+    marginRight: 16,
+    objectFit: 'cover',
+  },
+  headerInfo: {
+    flex: 1,
+  },
+  nameLeft: {
     fontWeight: 'bold',
+    fontSize: 14,
     textTransform: 'uppercase',
-    borderBottomWidth: 1,
-    borderBottomColor: '#1A1A1A',
-    marginTop: 12,
-    marginBottom: 4,
-    fontSize: 11,
+    letterSpacing: 1,
   },
-  entryHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    fontWeight: 'bold',
-  },
-  entryTitle: {
-    flex: 1,
-  },
-  entryDate: {
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-    textAlign: 'right',
-    fontWeight: 'normal',
-  },
-  bulletItem: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginBottom: 2,
-  },
-  bullet: {
-    width: 10,
-  },
-  bulletText: {
-    flex: 1,
+  contactLeft: {
+    marginTop: 4,
   },
   bold: {
     fontWeight: 'bold',
@@ -65,10 +57,18 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) => {
+export const CVDocument = ({
+  data,
+  locale,
+  photo
+}: {
+  data: CVData
+  locale: Locale
+  photo?: CVPhoto | null
+}) => {
   const lang = t[locale]
 
-  const renderContactItems = () => {
+  const renderContactItems = (isLeft = false) => {
     const items: React.ReactNode[] = []
     
     if (data.personal.city) items.push(<Text key="city">{data.personal.city}</Text>)
@@ -109,7 +109,7 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
     if (items.length === 0) return null
 
     return (
-      <Text style={styles.contact}>
+      <Text style={isLeft ? styles.contactLeft : styles.contact}>
         {items.map((item, index) => (
           <Text key={index}>
             {item}
@@ -123,90 +123,141 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
   return (
     <Document>
       <Page size="LETTER" style={styles.page}>
-        {/* Personal Info */}
-        <Text style={styles.name}>{data.personal.name || 'YOUR NAME'}</Text>
-        {renderContactItems()}
+        {/* Personal Info Header */}
+        {data.mode === 'standard' && photo ? (
+          <View style={styles.headerWithPhoto}>
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <Image src={photo.dataUrl} style={styles.profilePhoto} />
+            <View style={styles.headerInfo}>
+              <Text style={styles.nameLeft}>{data.personal.name || 'YOUR NAME'}</Text>
+              {renderContactItems(true)}
+            </View>
+          </View>
+        ) : (
+          <>
+            <Text style={styles.name}>{data.personal.name || 'YOUR NAME'}</Text>
+            {renderContactItems(false)}
+          </>
+        )}
 
         {/* Summary */}
         {data.summary && (
-          <View>
-            <Text style={styles.sectionHeader}>{lang.cvSummary}</Text>
+          <PDFSection title={lang.cvSummary}>
             <Text>{data.summary}</Text>
-          </View>
+          </PDFSection>
         )}
 
         {/* Education */}
         {(data.education.institution || data.education.degree) && (
-          <View>
-            <Text style={styles.sectionHeader}>{lang.cvEducation}</Text>
-            <View style={styles.entryHeader}>
-              <Text style={styles.entryTitle}>{data.education.institution}</Text>
-              <Text style={styles.entryDate}>{data.education.period}</Text>
+          <PDFSection title={lang.cvEducation}>
+            <View wrap={false} style={{ marginBottom: 4 }}>
+              <PDFEntryHeader
+                title={data.education.institution}
+                date={data.education.period}
+              />
+              <Text>{data.education.degree}</Text>
+              {data.education.gpa && <Text>GPA: {data.education.gpa}</Text>}
+              {data.education.coursework && <Text>Relevant Coursework: {data.education.coursework}</Text>}
+              {data.education.activities && <Text>Activities: {data.education.activities}</Text>}
             </View>
-            <Text>{data.education.degree}</Text>
-            {data.education.gpa && <Text>GPA: {data.education.gpa}</Text>}
-            {data.education.coursework && <Text>Relevant Coursework: {data.education.coursework}</Text>}
-            {data.education.activities && <Text>Activities: {data.education.activities}</Text>}
-          </View>
+          </PDFSection>
         )}
 
         {/* Experience */}
         {data.experience.length > 0 && (
-          <View>
-            <Text style={styles.sectionHeader}>{lang.cvExperience}</Text>
-            {data.experience.map((exp) => (
-              <View key={exp.id} style={{ marginBottom: 8 }}>
-                <View style={styles.entryHeader}>
-                  <Text style={styles.entryTitle}>
-                    {exp.company}{exp.title && exp.company ? ' | ' : ''}{exp.title}
-                  </Text>
-                  <Text style={styles.entryDate}>{exp.period}</Text>
-                </View>
-                <View>
-                  {exp.bullets.filter(Boolean).map((bullet, idx) => (
-                    <View key={idx} style={styles.bulletItem}>
-                      <Text style={styles.bullet}>• </Text>
-                      <Text style={styles.bulletText}>{bullet}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
+          <PDFSection title={lang.cvExperience}>
+            {sortExperiences(data.experience).map((exp) => (
+              <PDFEntry
+                key={exp.id}
+                header={
+                  <PDFEntryHeader
+                    title={`${exp.company}${exp.title && exp.company ? ' | ' : ''}${exp.title}`}
+                    date={exp.period}
+                  />
+                }
+                bullets={exp.bullets}
+              />
             ))}
-          </View>
+          </PDFSection>
         )}
 
+        {/* Organizational Experience */}
+        {(() => {
+          const sortedOrgs = sortOrganizations(data.organizations || [])
+          if (sortedOrgs.length === 0) return null
+          return (
+            <PDFSection title={lang.cvOrganizations}>
+              {sortedOrgs.map((org) => (
+                <PDFEntry
+                  key={org.id}
+                  header={
+                    <PDFEntryHeader
+                      title={`${org.organization}${org.role && org.organization ? ' | ' : ''}${org.role}`}
+                      date={formatOrganizationPeriod(org, locale === 'id')}
+                    />
+                  }
+                  bullets={org.bullets}
+                />
+              ))}
+            </PDFSection>
+          )
+        })()}
+
+        {/* Certifications */}
+        {(() => {
+          const sortedCerts = sortCertifications(data.certifications || [])
+          if (sortedCerts.length === 0) return null
+          return (
+            <PDFSection title={lang.cvCertifications}>
+              {sortedCerts.map((cert) => (
+                <View key={cert.id} wrap={false} style={{ marginBottom: 6 }}>
+                  <PDFEntryHeader
+                    title={
+                      <Text>
+                        <Text style={styles.bold}>{cert.name}</Text>
+                        {cert.issuer ? ` | ${cert.issuer}` : ''}
+                        {cert.credentialId ? ` (ID: ${cert.credentialId})` : ''}
+                      </Text>
+                    }
+                    date={cert.issueDate || ''}
+                  />
+                  {cert.url && (
+                    <Link src={cert.url} style={{ ...styles.link, fontSize: 9, marginTop: 1 }}>
+                      {cert.url}
+                    </Link>
+                  )}
+                </View>
+              ))}
+            </PDFSection>
+          )
+        })()}
+
         {/* Additional Info */}
-        {(data.additional.certifications.length > 0 ||
-          data.additional.achievements.length > 0 ||
+        {(data.additional.achievements.length > 0 ||
           data.additional.technicalSkills.length > 0 ||
           data.additional.softSkills.length > 0) && (
-          <View>
-            <Text style={styles.sectionHeader}>{lang.cvAdditional}</Text>
-            {data.additional.certifications.length > 0 && (
-              <Text>
-                <Text style={styles.bold}>{lang.certifications}: </Text>
-                {data.additional.certifications.join(', ')}
-              </Text>
-            )}
-            {data.additional.achievements.length > 0 && (
-              <Text>
-                <Text style={styles.bold}>{lang.achievements}: </Text>
-                {data.additional.achievements.join(', ')}
-              </Text>
-            )}
-            {data.additional.technicalSkills.length > 0 && (
-              <Text>
-                <Text style={styles.bold}>{lang.technicalSkills}: </Text>
-                {data.additional.technicalSkills.join(', ')}
-              </Text>
-            )}
-            {data.additional.softSkills.length > 0 && (
-              <Text>
-                <Text style={styles.bold}>{lang.softSkills}: </Text>
-                {data.additional.softSkills.join(', ')}
-              </Text>
-            )}
-          </View>
+          <PDFSection title={lang.cvAdditional}>
+            <View wrap={false}>
+              {data.additional.achievements.length > 0 && (
+                <Text>
+                  <Text style={styles.bold}>{lang.achievements}: </Text>
+                  {data.additional.achievements.join(', ')}
+                </Text>
+              )}
+              {data.additional.technicalSkills.length > 0 && (
+                <Text>
+                  <Text style={styles.bold}>{lang.technicalSkills}: </Text>
+                  {data.additional.technicalSkills.join(', ')}
+                </Text>
+              )}
+              {data.additional.softSkills.length > 0 && (
+                <Text>
+                  <Text style={styles.bold}>{lang.softSkills}: </Text>
+                  {data.additional.softSkills.join(', ')}
+                </Text>
+              )}
+            </View>
+          </PDFSection>
         )}
       </Page>
     </Document>

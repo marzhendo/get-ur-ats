@@ -1,0 +1,348 @@
+{
+  "cvOnePage": {
+    "mode": "ats",
+    "personal": {
+      "name": "JANE DOE",
+      "city": "Jakarta, Indonesia",
+      "phone": "+62 812-3456-7890",
+      "email": "jane.doe@example.com",
+      "linkedin": "https://linkedin.com/in/janedoe",
+      "portfolio": "https://janedoe.dev"
+    },
+    "summary": "Dedicated Software Engineer with 3+ years experience building modern web applications and cloud services.",
+    "education": {
+      "institution": "University of Indonesia",
+      "degree": "B.S. in Computer Science",
+      "period": "2019-08 - 2023-06",
+      "gpa": "3.80 / 4.00",
+      "coursework": "Data Structures, Web Architecture, Cloud Computing",
+      "activities": "Tech Lead at Google Developer Student Clubs"
+    },
+    "experience": [
+      {
+        "id": "exp-1",
+        "company": "PT Solusi Cloud Nusantara",
+        "title": "Software Engineer - Backend & Cloud Platform",
+        "period": "2023-07 - Present",
+        "bullets": [
+          "Developed high-throughput RESTful microservices in TypeScript and Node.js serving 500,000+ daily active users.",
+          "Implemented database connection pooling and Redis caching, cutting p95 response time by 42%.",
+          "Collaborated in agile squad with product managers and QA to deploy weekly zero-downtime releases."
+        ]
+      }
+    ],
+    "organizations": [
+      {
+        "id": "org-1",
+        "organization": "Developer Community Indonesia",
+        "role": "Event Coordinator",
+        "startDate": "2022-01",
+        "endDate": "2023-01",
+        "isCurrent": false,
+        "bullets": [
+          "Organized 6 regional meetups connecting 1,200+ student developers with senior tech mentors."
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "id": "cert-1",
+        "name": "AWS Certified Solutions Architect - Associate",
+        "issuer": "Amazon Web Services",
+        "issueDate": "2023-05",
+        "credentialId": "AWS-SAA-10293",
+        "url": "https://aws.amazon.com/verification"
+      }
+    ],
+    "additional": {
+      "technicalSkills": ["TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Docker", "AWS"],
+      "softSkills": ["Problem Solving", "Cross-Functional Collaboration", "Technical Writing"],
+      "certifications": [],
+      "achievements": ["Dean's Honor List 2021-2023"]
+    }
+  },
+  "cvTwoPage": {
+    "mode": "ats",
+    "personal": {
+      "name": "ALEXANDER CHASE NICHOLSON",
+      "city": "Jakarta, Indonesia",
+      "phone": "+62 812-3456-7890",
+      "email": "alex.nicholson@example.com",
+      "linkedin": "https://linkedin.com/in/alex-nicholson",
+      "portfolio": "https://alexnicholson.dev"
+    },
+    "summary": "Accomplished Senior Software Engineer and Distributed Systems Architect with over 8 years of engineering leadership in high-throughput cloud platforms, mission-critical microservices, and high-reliability data infrastructure. Proven track record of spearheading large-scale migrations and optimizing system performance under strict SLAs.",
+    "education": {
+      "institution": "University of Indonesia",
+      "degree": "Bachelor of Science in Computer Science, Magna Cum Laude",
+      "period": "2016-08 - 2020-07",
+      "gpa": "3.89 / 4.00",
+      "coursework": "Distributed Systems, Advanced Algorithms, Database Internal Architecture, Cloud Computing",
+      "activities": "President of Computer Science Student Executive Board, ACM ICPC Regional Finalist"
+    },
+    "experience": [
+      {
+        "id": "exp-1",
+        "company": "PT Mega Finansial Global Solusindo",
+        "title": "Principal Lead Distributed Systems Engineer & Head of Cloud Core Infrastructure",
+        "period": "2023-01 - Present",
+        "bullets": [
+          "Architected and deployed high-performance financial transaction pipeline processing over 45,000 transactions per second with sub-5ms p99 latency across distributed Kubernetes clusters.",
+          "Spearheaded multi-region cloud resilience initiative, reducing failover time from 14 minutes to under 8 seconds while achieving 99.999% availability throughout the financial year.",
+          "Mentored a team of 18 backend engineers, establishing rigorous automated code review standards, deterministic integration testing, and trunk-based deployment practices.",
+          "Engineered an automated real-time fraud detection engine using streaming event-driven architecture that eliminated $1.4M in fraudulent chargebacks within the first two quarters.",
+          "Authored comprehensive internal RFC standards for gRPC protocol buffer definitions, distributed tracing, and OpenTelemetry instrumentation."
+        ]
+      },
+      {
+        "id": "exp-2",
+        "company": "Nusantara Unicorn Tech Corp",
+        "title": "Senior Platform Infrastructure Software Engineer and Site Reliability Technical Lead",
+        "period": "2021-02 - 2022-12",
+        "bullets": [
+          "Led migration of 60+ legacy monolithic services to Go and Node.js microservices hosted on AWS EKS, reducing infrastructure operational costs by 34% annually.",
+          "Developed automated database sharding and caching layer utilizing Redis clusters and PostgreSQL read-replicas, eliminating database I/O bottlenecks during flash-sale traffic spikes.",
+          "Created self-healing Kubernetes operator and automated rollback policies that decreased Mean Time To Resolution (MTTR) by 62% for mission-critical order-processing workflows.",
+          "Partnered closely with security teams to enforce automated SAST/DAST CI/CD security scanning, achieving SOC 2 Type II compliance readiness."
+        ]
+      },
+      {
+        "id": "exp-3",
+        "company": "Karya Digital Nusantara",
+        "title": "Software Engineer II - Core Backend Systems",
+        "period": "2020-08 - 2021-01",
+        "bullets": [
+          "Developed high-throughput REST and GraphQL APIs using TypeScript, Express, and Redis for high-traffic mobile application serving 2.5 million daily active users.",
+          "Implemented comprehensive unit and integration testing suite with 92% code coverage, cutting production regression defect rates by 45%."
+        ]
+      }
+    ],
+    "organizations": [
+      {
+        "id": "org-1",
+        "organization": "Indonesian Open Source & Cloud Native Computing Community Foundation",
+        "role": "Vice Chairperson & Infrastructure Program Director",
+        "startDate": "2022-06",
+        "endDate": "",
+        "isCurrent": true,
+        "bullets": [
+          "Organized 12 national developer summits and hackathons across Southeast Asia, engaging over 4,500 active software engineers and student builders.",
+          "Curated open-source mentorship curriculum covering Kubernetes, Rust, Go, and cloud architectures for aspiring junior developers from underrepresented backgrounds."
+        ]
+      },
+      {
+        "id": "org-2",
+        "organization": "Association for Computing Machinery (ACM) Student Chapter",
+        "role": "Head of Competitive Programming Division",
+        "startDate": "2018-09",
+        "endDate": "2020-06",
+        "isCurrent": false,
+        "bullets": [
+          "Trained 45 university representatives in data structures and graph algorithms, leading teams to podium finishes at ACM-ICPC regional level.",
+          "Directed university-wide algorithm Olympiad with over 600 participating high school and collegiate competitors."
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "id": "cert-1",
+        "name": "AWS Certified Solutions Architect - Professional (SAP-C02)",
+        "issuer": "Amazon Web Services",
+        "issueDate": "2023-04",
+        "expiryDate": "2026-04",
+        "credentialId": "AWS-PSA-982341",
+        "url": "https://aws.amazon.com/verification"
+      },
+      {
+        "id": "cert-2",
+        "name": "Certified Kubernetes Administrator (CKA)",
+        "issuer": "The Linux Foundation & Cloud Native Computing Foundation",
+        "issueDate": "2022-09",
+        "expiryDate": "2025-09",
+        "credentialId": "CKA-773910-LF",
+        "url": "https://www.cncf.io/certification/cka"
+      },
+      {
+        "id": "cert-3",
+        "name": "Google Cloud Professional Cloud Architect",
+        "issuer": "Google Cloud",
+        "issueDate": "2021-11",
+        "expiryDate": "2023-11",
+        "credentialId": "GCP-PCA-449102",
+        "url": "https://cloud.google.com/certification"
+      }
+    ],
+    "additional": {
+      "technicalSkills": [
+        "Go", "TypeScript", "Node.js", "Python", "Rust", "PostgreSQL", "Redis", "Kafka", "Docker", "Kubernetes", "Terraform", "AWS", "Google Cloud"
+      ],
+      "softSkills": [
+        "Technical Leadership", "System Architecture Design", "Cross-Functional Collaboration", "Mentorship", "Incident Command"
+      ],
+      "certifications": [],
+      "achievements": [
+        "1st Place National Hackathon for FinTech Resilience 2022",
+        "Published technical paper on Distributed Consensus Mechanisms in IEEE Southeast Asia 2020"
+      ]
+    }
+  },
+  "cvThreePage": {
+    "mode": "ats",
+    "personal": {
+      "name": "PROF. DR. ELEANOR V. STERLING-VANDERBILT",
+      "city": "Bandung, Indonesia",
+      "phone": "+62 811-9876-5432",
+      "email": "eleanor.sterling@example.edu",
+      "linkedin": "https://linkedin.com/in/eleanor-sterling",
+      "portfolio": "https://eleanorsterling.org"
+    },
+    "summary": "Distinguished Principal Enterprise Architect, Systems Researcher, and Engineering Executive with 15+ years of distinguished industry and academic contributions in distributed computing, cyber-physical architectures, and scalable cloud solutions. Proven executive leadership managing organizations of 120+ engineers across 4 international regions.",
+    "education": {
+      "institution": "Bandung Institute of Technology (ITB)",
+      "degree": "Doctor of Philosophy (Ph.D.) in Distributed Computer Systems Engineering",
+      "period": "2012-08 - 2016-06",
+      "gpa": "4.00 / 4.00",
+      "coursework": "Advanced Distributed Algorithms, Formal Methods in Software Verification, High-Assurance Computing Systems",
+      "activities": "Doctoral Senate Representative, Chair of IEEE Computer Society ITB Chapter"
+    },
+    "experience": [
+      {
+        "id": "exp-1",
+        "company": "Continental Global Telecommunications & Enterprise Cloud Infrastructure Holding B.V.",
+        "title": "Vice President of Infrastructure Architecture & Enterprise Principal Cloud Systems Engineer",
+        "period": "2022-01 - Present",
+        "bullets": [
+          "Direct enterprise technology roadmap across 24 global data centers, standardizing on hybrid cloud container platforms supporting $800M in annual recurring cloud revenues.",
+          "Architected zero-trust security perimeter and multi-tenant isolation platform complying with ISO 27001, HIPAA, and GDPR regulatory constraints.",
+          "Oversee operational budgets of $42M annually, implementing FinOps automated instance scheduling and reserved commitment modeling that generated $9.2M in annual savings.",
+          "Spearheaded enterprise modernization replacing legacy mainframe processing with distributed event sourcing architecture powered by Apache Kafka and Apache Flink.",
+          "Championed modern CI/CD automation pipeline shortening feature delivery cycles from quarterly releases to continuous daily production deployments across 140 autonomous squads."
+        ]
+      },
+      {
+        "id": "exp-2",
+        "company": "Asia Pacific Sovereign Cloud & Secure Networking Infrastructure Consortium",
+        "title": "Director of Distributed Systems & Platform Engineering Technical Fellow",
+        "period": "2018-03 - 2021-12",
+        "bullets": [
+          "Designed sovereign government cloud foundation hosting critical public services for 40+ million citizens with end-to-end cryptographic integrity verification.",
+          "Engineered resilient mesh networking protocol with automated packet routing over satellite and terrestrial high-latency connections, reducing packet drop by 82%.",
+          "Managed 85 distributed software engineers, data engineers, and infrastructure operators across Singapore, Jakarta, and Tokyo offices.",
+          "Published 4 international patents on low-overhead distributed consensus protocols in partition-prone network topologies."
+        ]
+      },
+      {
+        "id": "exp-3",
+        "company": "Digital Media & Interactive Entertainment Networks Asia",
+        "title": "Principal Lead Backend Architect & High-Throughput Streaming Lead",
+        "period": "2016-07 - 2018-02",
+        "bullets": [
+          "Built ultra-low latency real-time video streaming edge network supporting 8 million concurrent concurrent livestreaming viewers during peak regional sports broadcasts.",
+          "Implemented global multi-CDN balancing algorithms that reduced global buffering rates by 68% and optimized bandwidth costs by $1.8M per quarter.",
+          "Standardized microservices observability stack using Prometheus, Grafana, and Jaeger distributed tracing across 3,000 container instances.",
+          "Authored proprietary connection throttling and rate limiting algorithm resilient to high-volume DDoS layer-7 floods."
+        ]
+      },
+      {
+        "id": "exp-4",
+        "company": "National Research Institute of Computer Science and Technology",
+        "title": "Senior Research Scientist - Distributed Systems and High-Performance Computing",
+        "period": "2014-01 - 2016-06",
+        "bullets": [
+          "Conducted experimental benchmark research on distributed file systems, Lustre HPC clusters, and RDMA-accelerated network communications.",
+          "Collaborated with international academic consortia on large-scale parallel processing frameworks for atmospheric modeling simulations."
+        ]
+      }
+    ],
+    "organizations": [
+      {
+        "id": "org-1",
+        "organization": "International Council on Distributed Systems Architecture and Standardization",
+        "role": "Chairman of the Technical Advisory Board",
+        "startDate": "2020-01",
+        "endDate": "",
+        "isCurrent": true,
+        "bullets": [
+          "Lead global working group of 40 technology fellows from international tech companies establishing open standards for cloud interoperability.",
+          "Reviewed and ratified 15 open specification RFCs regarding cloud-native storage interfaces and serverless execution standards."
+        ]
+      },
+      {
+        "id": "org-2",
+        "organization": "National Higher Education Computer Science Curriculum Committee",
+        "role": "External Industry Fellow & Curriculum Advisor",
+        "startDate": "2018-01",
+        "endDate": "2022-12",
+        "isCurrent": false,
+        "bullets": [
+          "Overhauled computer engineering curricula for 18 state universities, modernizing legacy syllabi with modern cloud-native, distributed computing, and cybersecurity coursework.",
+          "Organized annual industry capstone showcase connecting over 1,200 graduates with premier engineering employers."
+        ]
+      },
+      {
+        "id": "org-3",
+        "organization": "Southeast Asia Women in High-Performance Computing Initiative",
+        "role": "Founding Board Member & Mentorship Lead",
+        "startDate": "2015-06",
+        "endDate": "2019-12",
+        "isCurrent": false,
+        "bullets": [
+          "Created structured mentorship program matching 250+ aspiring female computer scientists with senior engineering leaders in enterprise tech.",
+          "Secured $150K in fellowship grants supporting graduate research in high-performance computing."
+        ]
+      }
+    ],
+    "certifications": [
+      {
+        "id": "cert-1",
+        "name": "AWS Certified Solutions Architect - Professional (SAP-C02)",
+        "issuer": "Amazon Web Services",
+        "issueDate": "2023-01",
+        "expiryDate": "2026-01",
+        "credentialId": "AWS-PSA-001928",
+        "url": "https://aws.amazon.com/verification"
+      },
+      {
+        "id": "cert-2",
+        "name": "Google Cloud Certified Fellow - Hybrid Multi-Cloud Architecture",
+        "issuer": "Google Cloud",
+        "issueDate": "2022-05",
+        "expiryDate": "2025-05",
+        "credentialId": "GCP-FELLOW-10293",
+        "url": "https://cloud.google.com/certification"
+      },
+      {
+        "id": "cert-3",
+        "name": "Certified Information Systems Security Professional (CISSP)",
+        "issuer": "(ISC)²",
+        "issueDate": "2021-08",
+        "expiryDate": "2024-08",
+        "credentialId": "CISSP-992014",
+        "url": "https://www.isc2.org/certifications/cissp"
+      },
+      {
+        "id": "cert-4",
+        "name": "Certified Kubernetes Security Specialist (CKS)",
+        "issuer": "Cloud Native Computing Foundation",
+        "issueDate": "2021-02",
+        "expiryDate": "2024-02",
+        "credentialId": "CKS-551029",
+        "url": "https://www.cncf.io/certification/cks"
+      }
+    ],
+    "additional": {
+      "technicalSkills": [
+        "Distributed Systems Architecture", "Go", "Rust", "C++", "Python", "Kubernetes", "Linux Kernel Internals", "eBPF", "Kafka", "PostgreSQL Internals", "Terraform", "AWS", "Google Cloud", "FinOps"
+      ],
+      "softSkills": [
+        "Executive Leadership", "Board Advisory", "Cross-Cultural Management", "High-Stakes Technical Negotiation", "Crisis Incident Management"
+      ],
+      "certifications": [],
+      "achievements": [
+        "Recipient of the National Distinguished Technologist Award 2021",
+        "Author of over 20 peer-reviewed journal papers in ACM and IEEE Transactions on Computers",
+        "Keynote Speaker at KubeCon + CloudNativeCon Asia 2023"
+      ]
+    }
+  }
+}

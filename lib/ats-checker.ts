@@ -1,4 +1,5 @@
 import { CVData } from '@/types/cv'
+import { isValidHttpsUrl } from '@/lib/certifications-util'
 
 export function checkATS(data: CVData) {
   let score = 100
@@ -32,11 +33,51 @@ export function checkATS(data: CVData) {
   if (data.summary) filledSections++
   if (data.education.institution) filledSections++
   if (data.experience.length > 0) filledSections++
-  if (data.additional.technicalSkills.length > 0 || data.additional.softSkills.length > 0 || data.additional.certifications.length > 0) filledSections++
+  if (
+    data.additional.technicalSkills.length > 0 || 
+    data.additional.softSkills.length > 0 || 
+    data.additional.certifications.length > 0 ||
+    (data.certifications && data.certifications.length > 0)
+  ) filledSections++
 
   if (filledSections < 4) {
-    warnings.push('Missing section content (Ensure Summary, Education, Experience, and Additional info have content).')
+    warnings.push('Missing section content (Ensure Summary, Education, Experience, and Additional info/Certifications have content).')
     score -= 10
+  }
+
+  if (data.mode === 'standard') {
+    warnings.push('Standard Mode is active. Note: Adding photos may reduce parsing accuracy in some automated ATS systems.')
+  }
+
+  if (data.certifications && data.certifications.length > 0) {
+    data.certifications.forEach((cert, idx) => {
+      if (!cert.name || !cert.issuer) {
+        warnings.push(`Certification ${idx + 1} is missing required name or issuer.`)
+        score -= 5
+      }
+      if (cert.url && !isValidHttpsUrl(cert.url)) {
+        warnings.push(`Certification ${idx + 1} has an invalid or insecure URL (must start with https://).`)
+        score -= 5
+      }
+      if (cert.issueDate && cert.expiryDate && cert.expiryDate < cert.issueDate) {
+        warnings.push(`Certification "${cert.name || idx + 1}" has expiry date earlier than issue date.`)
+        score -= 5
+      }
+      checkText(cert.name, `Certification ${idx + 1} Name`)
+      checkText(cert.issuer, `Certification ${idx + 1} Issuer`)
+    })
+  }
+
+  if (data.organizations && data.organizations.length > 0) {
+    data.organizations.forEach((org, idx) => {
+      if (!org.organization || !org.role) {
+        warnings.push(`Organization entry ${idx + 1} is missing required organization name or role.`)
+        score -= 5
+      }
+      checkText(org.organization, `Organization ${idx + 1} Name`)
+      checkText(org.role, `Organization ${idx + 1} Role`)
+      org.bullets.forEach((b, j) => checkText(b, `Organization ${idx + 1} Bullet ${j + 1}`))
+    })
   }
 
   // Check all text
@@ -45,6 +86,48 @@ export function checkATS(data: CVData) {
   data.experience.forEach((exp, i) => {
     exp.bullets.forEach((b, j) => checkText(b, `Experience ${i+1} Bullet ${j+1}`))
   })
+
+  // Estimate page count for OD-21 warning (> 2 pages)
+  let estimatedLines = 6 // Personal info and contact
+  if (data.summary) {
+    estimatedLines += 2 + Math.max(1, Math.ceil(data.summary.length / 85))
+  }
+  if (data.education.institution || data.education.degree) {
+    estimatedLines += 5
+  }
+  if (data.experience.length > 0) {
+    estimatedLines += 2
+    data.experience.forEach((exp) => {
+      estimatedLines += 2
+      exp.bullets.filter(Boolean).forEach((b) => {
+        estimatedLines += Math.max(1, Math.ceil(b.length / 85))
+      })
+    })
+  }
+  if (data.organizations && data.organizations.length > 0) {
+    estimatedLines += 2
+    data.organizations.forEach((org) => {
+      estimatedLines += 2
+      org.bullets.filter(Boolean).forEach((b) => {
+        estimatedLines += Math.max(1, Math.ceil(b.length / 85))
+      })
+    })
+  }
+  if (data.certifications && data.certifications.length > 0) {
+    estimatedLines += 2 + data.certifications.length * 2
+  }
+  if (
+    data.additional.achievements.length > 0 ||
+    data.additional.technicalSkills.length > 0 ||
+    data.additional.softSkills.length > 0
+  ) {
+    estimatedLines += 5
+  }
+
+  const estimatedPages = Math.ceil(estimatedLines / 44)
+  if (estimatedPages > 2) {
+    warnings.push(`CV length exceeds 2 pages (estimated ~${estimatedPages} pages). Recruiters and ATS screening generally favor a concise 1-2 page CV.`)
+  }
 
   score = Math.max(0, score)
   return { score, warnings, passed: score >= 80 }

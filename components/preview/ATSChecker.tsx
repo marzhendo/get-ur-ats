@@ -3,18 +3,15 @@
 import { useCVStore } from '@/lib/store'
 import { checkATS } from '@/lib/ats-checker'
 import { toPlainText } from '@/lib/plain-text'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { t } from '@/lib/i18n'
+import { useIsMounted } from '@/lib/use-is-mounted'
 
 export default function ATSChecker() {
   const { data, locale } = useCVStore()
   const lang = t[locale]
   const [showModal, setShowModal] = useState(false)
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useIsMounted()
 
   if (!mounted) return null
   

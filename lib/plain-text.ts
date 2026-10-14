@@ -1,5 +1,7 @@
 import { CVData } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
+import { sortCertifications } from '@/lib/certifications-util'
+import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
 
 export function toPlainText(data: CVData, locale: Locale): string {
   const lang = t[locale]
@@ -39,7 +41,7 @@ export function toPlainText(data: CVData, locale: Locale): string {
   if (data.experience.length > 0) {
     lines.push(lang.cvExperience)
     lines.push('---')
-    data.experience.forEach(exp => {
+    sortExperiences(data.experience).forEach(exp => {
       lines.push(`${exp.company} | ${exp.title} | ${exp.period}`)
       exp.bullets.filter(Boolean).forEach(bullet => {
         lines.push(`• ${bullet}`)
@@ -48,7 +50,35 @@ export function toPlainText(data: CVData, locale: Locale): string {
     })
   }
 
-  const hasAdditional = data.additional.certifications.length > 0 || 
+  const sortedOrgs = sortOrganizations(data.organizations || [])
+  if (sortedOrgs.length > 0) {
+    lines.push(lang.cvOrganizations)
+    lines.push('---')
+    sortedOrgs.forEach(org => {
+      const period = formatOrganizationPeriod(org, locale === 'id')
+      const headerParts = [org.organization, org.role, period].filter(Boolean)
+      lines.push(headerParts.join(' | '))
+      org.bullets.filter(Boolean).forEach(bullet => {
+        lines.push(`• ${bullet}`)
+      })
+      lines.push('')
+    })
+  }
+
+  const sortedCerts = sortCertifications(data.certifications || [])
+  if (sortedCerts.length > 0) {
+    lines.push(lang.cvCertifications)
+    lines.push('---')
+    sortedCerts.forEach(cert => {
+      const headerParts = [cert.name, cert.issuer, cert.issueDate].filter(Boolean)
+      lines.push(headerParts.join(' | '))
+      if (cert.credentialId) lines.push(`Credential ID: ${cert.credentialId}`)
+      if (cert.url) lines.push(cert.url)
+      lines.push('')
+    })
+  }
+
+  const hasAdditional = 
     data.additional.achievements.length > 0 || 
     data.additional.technicalSkills.length > 0 || 
     data.additional.softSkills.length > 0
@@ -56,9 +86,6 @@ export function toPlainText(data: CVData, locale: Locale): string {
   if (hasAdditional) {
     lines.push(lang.cvAdditional)
     lines.push('---')
-    if (data.additional.certifications.length > 0) {
-      lines.push(`${lang.certifications}: ${data.additional.certifications.join(', ')}`)
-    }
     if (data.additional.achievements.length > 0) {
       lines.push(`${lang.achievements}: ${data.additional.achievements.join(', ')}`)
     }
