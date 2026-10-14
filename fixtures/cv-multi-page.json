@@ -252,16 +252,6 @@
           "Conducted experimental benchmark research on distributed file systems, Lustre HPC clusters, and RDMA-accelerated network communications.",
           "Collaborated with international academic consortia on large-scale parallel processing frameworks for atmospheric modeling simulations."
         ]
-      },
-      {
-        "id": "exp-5",
-        "company": "Pioneer Software Systems Laboratories",
-        "title": "Software Engineer & Kernel Driver Specialist",
-        "period": "2010-09 - 2013-12",
-        "bullets": [
-          "Developed custom Linux kernel modules, eBPF telemetry hooks, and POSIX-compliant file system drivers in C/C++.",
-          "Optimized TCP stack performance on 10GbE network interfaces, achieving 98% line-rate throughput without packet starvation."
-        ]
       }
     ],
     "organizations": [

@@ -1,5 +1,5 @@
-import { Document, Page, View, Text, StyleSheet, Link } from '@react-pdf/renderer'
-import type { CVData } from '@/types/cv'
+import { Document, Page, View, Text, StyleSheet, Link, Image } from '@react-pdf/renderer'
+import type { CVData, CVPhoto } from '@/types/cv'
 import { t, Locale } from '@/lib/i18n'
 import { sortCertifications } from '@/lib/certifications-util'
 import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/lib/date-sorting'
@@ -24,6 +24,30 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 8,
   },
+  headerWithPhoto: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  profilePhoto: {
+    width: 60,
+    height: 80, // 3:4 aspect ratio
+    marginRight: 16,
+    objectFit: 'cover',
+  },
+  headerInfo: {
+    flex: 1,
+  },
+  nameLeft: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  contactLeft: {
+    marginTop: 4,
+  },
   bold: {
     fontWeight: 'bold',
   },
@@ -33,10 +57,18 @@ const styles = StyleSheet.create({
   }
 })
 
-export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) => {
+export const CVDocument = ({
+  data,
+  locale,
+  photo
+}: {
+  data: CVData
+  locale: Locale
+  photo?: CVPhoto | null
+}) => {
   const lang = t[locale]
 
-  const renderContactItems = () => {
+  const renderContactItems = (isLeft = false) => {
     const items: React.ReactNode[] = []
     
     if (data.personal.city) items.push(<Text key="city">{data.personal.city}</Text>)
@@ -77,7 +109,7 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
     if (items.length === 0) return null
 
     return (
-      <Text style={styles.contact}>
+      <Text style={isLeft ? styles.contactLeft : styles.contact}>
         {items.map((item, index) => (
           <Text key={index}>
             {item}
@@ -91,9 +123,22 @@ export const CVDocument = ({ data, locale }: { data: CVData; locale: Locale }) =
   return (
     <Document>
       <Page size="LETTER" style={styles.page}>
-        {/* Personal Info */}
-        <Text style={styles.name}>{data.personal.name || 'YOUR NAME'}</Text>
-        {renderContactItems()}
+        {/* Personal Info Header */}
+        {data.mode === 'standard' && photo ? (
+          <View style={styles.headerWithPhoto}>
+            {/* eslint-disable-next-line jsx-a11y/alt-text */}
+            <Image src={photo.dataUrl} style={styles.profilePhoto} />
+            <View style={styles.headerInfo}>
+              <Text style={styles.nameLeft}>{data.personal.name || 'YOUR NAME'}</Text>
+              {renderContactItems(true)}
+            </View>
+          </View>
+        ) : (
+          <>
+            <Text style={styles.name}>{data.personal.name || 'YOUR NAME'}</Text>
+            {renderContactItems(false)}
+          </>
+        )}
 
         {/* Summary */}
         {data.summary && (

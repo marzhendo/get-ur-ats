@@ -1,7 +1,9 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useCVStore } from '@/lib/store'
+import { usePhotoStore } from '@/lib/photo-store'
 import styles from './CVPreview.module.css'
 import { t } from '@/lib/i18n'
 import { useIsMounted } from '@/lib/use-is-mounted'
@@ -10,6 +12,7 @@ import { sortExperiences, sortOrganizations, formatOrganizationPeriod } from '@/
 
 export default function CVPreview() {
   const { data, locale } = useCVStore()
+  const { photo } = usePhotoStore()
   const lang = t[locale]
   const mounted = useIsMounted()
   const containerRef = useRef<HTMLDivElement>(null)
@@ -96,9 +99,28 @@ export default function CVPreview() {
 
   return (
     <div ref={containerRef} className={styles.page}>
-      {/* Personal Info */}
-      <div className={styles.name}>{data.personal.name || 'YOUR NAME'}</div>
-      {renderContactItems()}
+      {/* Personal Info Header */}
+      {data.mode === 'standard' && photo ? (
+        <div className={styles.headerWithPhoto}>
+          <Image
+            src={photo.dataUrl}
+            alt={data.personal.name || 'Profile'}
+            width={72}
+            height={96}
+            className={styles.profilePhoto}
+            unoptimized
+          />
+          <div className={styles.headerInfo}>
+            <div className={styles.name}>{data.personal.name || 'YOUR NAME'}</div>
+            {renderContactItems()}
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className={styles.name}>{data.personal.name || 'YOUR NAME'}</div>
+          {renderContactItems()}
+        </>
+      )}
 
       {/* Summary */}
       {data.summary && (

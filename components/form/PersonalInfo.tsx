@@ -2,6 +2,7 @@
 
 import { useCVStore } from '@/lib/store'
 import { t } from '@/lib/i18n'
+import PhotoUploader from '@/components/form/PhotoUploader'
 
 export default function PersonalInfo() {
   const { data, updatePersonal, locale } = useCVStore()
@@ -59,10 +60,8 @@ export default function PersonalInfo() {
         />
       </div>
 
-      <div className="mt-4 p-3 rounded bg-background border border-border flex items-center justify-between text-xs">
-        <span className={data.mode === 'standard' ? 'text-text font-medium' : 'text-muted'}>
-          {data.mode === 'standard' ? lang.photoEnabledStandard : lang.photoDisabledAts}
-        </span>
+      <div className="mt-4">
+        <PhotoUploader />
       </div>
     </section>
   )

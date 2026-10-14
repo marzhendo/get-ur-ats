@@ -54,6 +54,35 @@
   margin-bottom: 8px;
 }
 
+.headerWithPhoto {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.profilePhoto {
+  width: 72px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid #E2E8F0;
+  flex-shrink: 0;
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.headerInfo .name {
+  text-align: left;
+}
+
+.headerInfo .contact {
+  text-align: left;
+}
+
 .sectionHeader {
   font-weight: bold;
   text-transform: uppercase;

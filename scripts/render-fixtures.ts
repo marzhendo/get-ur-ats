@@ -2,7 +2,7 @@ import ReactPDF from '@react-pdf/renderer'
 import fs from 'fs'
 import path from 'path'
 import { CVDocument } from '../lib/pdf'
-import type { CVData } from '../types/cv'
+import type { CVData, CVPhoto } from '../types/cv'
 
 const fixturesPath = path.resolve(__dirname, '../fixtures/cv-multi-page.json')
 const fixtures = JSON.parse(fs.readFileSync(fixturesPath, 'utf8'))
@@ -37,7 +37,25 @@ async function run() {
   )
   console.log('Saved:', pdf3)
 
-  console.log('All 3 PDFs generated successfully!')
+  console.log('Rendering cv-standard-photo.pdf...')
+  const pdfPhoto = path.join(outputDir, 'cv-standard-photo.pdf')
+  const standardData: CVData = {
+    ...(fixtures.cvOnePage as CVData),
+    mode: 'standard',
+  }
+  const samplePhoto: CVPhoto = {
+    dataUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+    width: 300,
+    height: 400,
+    updatedAt: Date.now(),
+  }
+  await ReactPDF.renderToFile(
+    CVDocument({ data: standardData, locale: 'en', photo: samplePhoto }),
+    pdfPhoto
+  )
+  console.log('Saved:', pdfPhoto)
+
+  console.log('All 4 PDFs generated successfully!')
 }
 
 run().catch((err) => {
